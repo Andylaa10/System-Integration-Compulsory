@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommentService", "CommentService\CommentService.csproj", "{BE2E81DB-6DB1-47F9-8BB7-F22DC3D50143}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostService", "PostService\PostService.csproj", "{77FEC2F3-48F2-4E08-91A5-8EBBA644C4FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeLineService", "TimeLineService\TimeLineService.csproj", "{45C96C92-70C0-4B0D-AD5A-1B69B5DAA642}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LikeService", "LikeService\LikeService.csproj", "{8F3BAEF3-4ABA-4AF0-9557-532F084E1BA6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthService", "AuthService\AuthService.csproj", "{BBA607B9-13A7-46F5-8CDB-E0F2F2E03926}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService", "UserService\UserService.csproj", "{A27053B8-861C-47B4-8109-D733891D682F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FriendService", "FriendService\FriendService.csproj", "{95FAF868-A7CE-4F55-B640-150EB9800D0A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BE2E81DB-6DB1-47F9-8BB7-F22DC3D50143}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE2E81DB-6DB1-47F9-8BB7-F22DC3D50143}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE2E81DB-6DB1-47F9-8BB7-F22DC3D50143}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE2E81DB-6DB1-47F9-8BB7-F22DC3D50143}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77FEC2F3-48F2-4E08-91A5-8EBBA644C4FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77FEC2F3-48F2-4E08-91A5-8EBBA644C4FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77FEC2F3-48F2-4E08-91A5-8EBBA644C4FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77FEC2F3-48F2-4E08-91A5-8EBBA644C4FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45C96C92-70C0-4B0D-AD5A-1B69B5DAA642}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45C96C92-70C0-4B0D-AD5A-1B69B5DAA642}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45C96C92-70C0-4B0D-AD5A-1B69B5DAA642}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45C96C92-70C0-4B0D-AD5A-1B69B5DAA642}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F3BAEF3-4ABA-4AF0-9557-532F084E1BA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F3BAEF3-4ABA-4AF0-9557-532F084E1BA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F3BAEF3-4ABA-4AF0-9557-532F084E1BA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F3BAEF3-4ABA-4AF0-9557-532F084E1BA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBA607B9-13A7-46F5-8CDB-E0F2F2E03926}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBA607B9-13A7-46F5-8CDB-E0F2F2E03926}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBA607B9-13A7-46F5-8CDB-E0F2F2E03926}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBA607B9-13A7-46F5-8CDB-E0F2F2E03926}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A27053B8-861C-47B4-8109-D733891D682F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A27053B8-861C-47B4-8109-D733891D682F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A27053B8-861C-47B4-8109-D733891D682F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A27053B8-861C-47B4-8109-D733891D682F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95FAF868-A7CE-4F55-B640-150EB9800D0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95FAF868-A7CE-4F55-B640-150EB9800D0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95FAF868-A7CE-4F55-B640-150EB9800D0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95FAF868-A7CE-4F55-B640-150EB9800D0A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

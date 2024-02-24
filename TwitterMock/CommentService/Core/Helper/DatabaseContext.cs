@@ -21,5 +21,5 @@ public class DatabaseContext : DbContext
         #endregion
     }
 
-    private DbSet<Comment> Comments { get; set; }
+    public DbSet<Comment> Comments { get; set; }
 }

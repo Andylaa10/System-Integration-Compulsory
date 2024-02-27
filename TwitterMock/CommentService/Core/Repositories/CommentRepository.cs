@@ -41,22 +41,34 @@ public class CommentRepository : ICommentRepository
 
     public async Task UpdateComment(int commentId, Comment updatedComment)
     {
-        var commentToUpdate = await _context.Comments.FirstAsync(c => c.Id == updatedComment.Id);
+        var commentToUpdate = await _context.Comments.FirstOrDefaultAsync(c => c.Id == updatedComment.Id);
 
-        if (commentId == commentToUpdate.Id)
+        if (commentId != commentToUpdate.Id)
         {
-            commentToUpdate.Content = updatedComment.Content;
-            commentToUpdate.UpdatedAt = new DateTime();
-            _context.Comments.Update(commentToUpdate);
+            throw new ArgumentException("The ids do not match");
         }
 
+        commentToUpdate.Content = updatedComment.Content;
+        commentToUpdate.UpdatedAt = DateTime.Now;
+        _context.Comments.Update(commentToUpdate);
         await _context.SaveChangesAsync();
     }
 
     public async Task DeleteComment(int commentId)
     {
-        var commentToDelete = await _context.Comments.FirstAsync(c => c.Id == commentId);
+        var commentToDelete = await _context.Comments.FirstOrDefaultAsync(c => c.Id == commentId);
         _context.Comments.Remove(commentToDelete);
         await _context.SaveChangesAsync();
+    }
+
+    public async Task<bool> DoesCommentExists(int commentId)
+    {
+        var comment = await _context.Comments.FirstOrDefaultAsync(c => c.Id == commentId);
+        if (comment != null || comment != default)
+        {
+            return true;
+        }
+
+        return false;
     }
 }

@@ -5,9 +5,8 @@ namespace CommentService.Core.Helper;
 
 public class DatabaseContext : DbContext
 {
-    public DatabaseContext(DbContextOptionsBuilder options)
+    public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
     {
-        options.UseInMemoryDatabase("CommentDb");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

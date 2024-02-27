@@ -1,5 +1,4 @@
 ﻿using CommentService.Core.Entities;
-using CommentService.Core.Entities.Dtos;
 using CommentService.Core.Entities.Helper;
 
 namespace CommentService.Core.Repositories.Interfaces;
@@ -11,7 +10,7 @@ public interface ICommentRepository
     /// </summary>
     /// <param name="postId"></param>
     /// <returns></returns>
-    public Task<PaginatedResult<Comment>> GetComments(int postId, int pageIndex, int pageSize);
+    public Task<PaginatedResult<Comment>> GetComments(int postId, int pageNumber, int pageSize);
 
     /// <summary>
     /// Add a comment on a post 
@@ -33,4 +32,11 @@ public interface ICommentRepository
     /// <param name="commentId"></param>
     /// <returns></returns>
     public Task DeleteComment(int commentId);
+
+    /// <summary>
+    /// Check whether a comment exist with the specified id
+    /// </summary>
+    /// <param name="commentId"></param>
+    /// <returns></returns>
+    public Task<bool> DoesCommentExists(int commentId);
 }

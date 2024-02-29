@@ -6,4 +6,5 @@ namespace UserService.Controllers;
 [Route("[controller]")]
 public class UserController : ControllerBase
 {
+    
 }

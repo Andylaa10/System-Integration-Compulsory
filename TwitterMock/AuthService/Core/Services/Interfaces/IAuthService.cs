@@ -4,7 +4,7 @@ namespace AuthService.Core.Services.Interfaces;
 
 public interface IAuthService
 {
-    public Task<TokenDto> Register(CreateAuthDto auth);
+    public Task Register(CreateAuthDto auth);
     public Task<TokenDto> Login(LoginDto user);
-    public bool ValidateToken(string token);
+    public Task<bool> ValidateToken(string token);
 }

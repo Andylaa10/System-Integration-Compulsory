@@ -1,10 +1,14 @@
-﻿using AuthService.Core.Models;
+﻿using AuthService.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace AuthService.Core.Helper;
 
 public class DatabaseContext : DbContext
 {
+    public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
+    {
+    }
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         #region Setup DB

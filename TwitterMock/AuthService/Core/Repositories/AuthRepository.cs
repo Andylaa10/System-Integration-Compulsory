@@ -1,5 +1,5 @@
 ﻿using AuthService.Core.Helper;
-using AuthService.Core.Models;
+using AuthService.Core.Entities;
 using AuthService.Core.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,6 +26,15 @@ public class AuthRepository : IAuthRepository
         var auth = await _context.Auths.FirstOrDefaultAsync(a => a.Id == authId);
 
         if (auth is null) throw new ArgumentException($"No auth with id of {authId}");
+
+        return auth;
+    }
+
+    public async Task<Auth> GetAuthByEmail(string email)
+    {
+        var auth = await _context.Auths.FirstOrDefaultAsync(a => a.Email == email);
+
+        if (auth is null) throw new ArgumentException($"No auth with email of {email}");
 
         return auth;
     }

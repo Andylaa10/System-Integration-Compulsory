@@ -1,4 +1,4 @@
-﻿namespace AuthService.Core.Models;
+﻿namespace AuthService.Core.Entities;
 
 public class Auth
 {

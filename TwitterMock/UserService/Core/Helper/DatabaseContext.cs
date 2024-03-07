@@ -37,7 +37,6 @@ public class DatabaseContext : DbContext
             FirstName = "John",
             LastName = "Doe",
             CreatedAt = DateTime.Now,
-            DateOfBirth = new DateOnly(1990, 5, 15)
         };
 
         var user2 = new User
@@ -49,7 +48,6 @@ public class DatabaseContext : DbContext
             FirstName = "Jane",
             LastName = "Doe",
             CreatedAt = DateTime.Now,
-            DateOfBirth = new DateOnly(1988, 9, 20)
         };
 
         var user3 = new User
@@ -61,7 +59,6 @@ public class DatabaseContext : DbContext
             FirstName = "Alice",
             LastName = "Smith",
             CreatedAt = DateTime.Now,
-            DateOfBirth = new DateOnly(1995, 3, 10)
         };
 
         var user4 = new User
@@ -73,7 +70,6 @@ public class DatabaseContext : DbContext
             FirstName = "Bob",
             LastName = "Johnson",
             CreatedAt = DateTime.Now,
-            DateOfBirth = new DateOnly(1985, 11, 25)
         };
 
         var user5 = new User
@@ -85,7 +81,6 @@ public class DatabaseContext : DbContext
             FirstName = "Emily",
             LastName = "Wilson",
             CreatedAt = DateTime.Now,
-            DateOfBirth = new DateOnly(1998, 7, 3)
         };
         
         modelBuilder.Entity<User>().HasData(user1, user2, user3, user4, user5);

@@ -1,5 +1,6 @@
 ﻿using UserService.Core.Entities;
 using UserService.Core.Entities.Helper;
+using UserService.Core.Services.Dtos;
 
 namespace UserService.Core.Repositories.Interfaces;
 
@@ -25,7 +26,7 @@ public interface IUserRepository
     /// </summary>
     /// <param name="user"></param>
     /// <returns></returns>
-    public Task AddUser(User user);
+    public Task<User> AddUser(User user);
     
     /// <summary>
     /// Updates user with a specific id

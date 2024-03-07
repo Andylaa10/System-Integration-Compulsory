@@ -1,14 +1,11 @@
-﻿namespace UserService.Core.Entities;
+namespace UserService.Core.Services.Dtos;
 
-public class User
+public class GetUserDTO
 {
     public int Id { get; set; }
     public string Username { get; set; }
     public string Email { get; set; }
-    public string Password { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
-    public string Role { get; set; } = "User";
     public DateTime CreatedAt { get; set; }
-    public DateTime? UpdatedAt { get; set; }
 }

@@ -11,9 +11,9 @@ public interface IUserService
     public Task<PaginatedResult<GetUserDTO>> GetUsers(PaginatedDTO dto);
     
     public Task<GetUserDTO> GetUser(int userId);
-    public Task CreateUser(User user);
+    public Task CreateUser(CreateUserDTO user);
     
-    public Task UpdateUser(int userId, User user);
+    public Task UpdateUser(int userId, UpdateUserDTO user);
     
     public Task DeleteUser(int userId);
     

@@ -3,7 +3,6 @@ using UserService.Core.Entities;
 using UserService.Core.Entities.Helper;
 using UserService.Core.Helper;
 using UserService.Core.Repositories.Interfaces;
-using UserService.Core.Services.Dtos;
 
 namespace UserService.Core.Repositories;
 
@@ -32,9 +31,11 @@ public class UserRepository : IUserRepository
         };
     }
 
-    public async Task<GetUserDTO> GetUserById(int userId)
+    public async Task<User> GetUserById(int userId)
     {
-        return await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+        if (user is null) throw new KeyNotFoundException($"No user with id of {userId}");
+        return user;
     }
 
     public async Task AddUser(User user)

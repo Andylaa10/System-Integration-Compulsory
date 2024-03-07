@@ -3,7 +3,6 @@ using UserService.Core.Entities;
 using UserService.Core.Entities.Helper;
 using UserService.Core.Repositories.Interfaces;
 using UserService.Core.Services.Dtos;
-using UserService.Core.Services.Helper;
 using UserService.Core.Services.Interfaces;
 
 namespace UserService.Core.Services;
@@ -11,14 +10,12 @@ namespace UserService.Core.Services;
 public class UserService : IUserService
 {
     private readonly IUserRepository _userRepository;
-    private readonly IPasswordHasher _passwordHasher;
     private readonly IMapper _mapper;
 
 
-    public UserService(IUserRepository userRepository, IPasswordHasher passwordHasher, IMapper mapper)
+    public UserService(IUserRepository userRepository, IMapper mapper)
     {
         _userRepository = userRepository ?? throw new ArgumentException("User repository cannot be null");
-        _passwordHasher = passwordHasher ?? throw new ArgumentException("Password hasher cannot be null");
         _mapper = mapper ?? throw new ArgumentException("Automapper cannot be null");
     }
 
@@ -38,7 +35,6 @@ public class UserService : IUserService
     {
         if (user == null) throw new ArgumentException("User cannot be null");
         
-        user.Password = _passwordHasher.HashPassword(user.Password);
         await _userRepository.AddUser(_mapper.Map<User>(user));
     }
 
@@ -47,11 +43,15 @@ public class UserService : IUserService
         if (userId < 1) 
             throw new ArgumentException("Id cannot be less than 1");
         
-        return _userRepository.UpdateUser(userId, user);
+        return _userRepository.UpdateUser(userId, _mapper.Map<User>(user));
     }
 
-    public Task DeleteUser(int userId)
+    public async Task DeleteUser(int userId)
     {
-        throw new NotImplementedException();
+        var user = await _userRepository.DoesUserExist(userId);
+
+        if (!user) throw new ArgumentException($"No user with id of {userId}");
+
+        await _userRepository.DeleteUser(userId);
     }
 }

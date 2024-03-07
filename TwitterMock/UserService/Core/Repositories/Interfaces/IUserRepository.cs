@@ -26,7 +26,7 @@ public interface IUserRepository
     /// </summary>
     /// <param name="user"></param>
     /// <returns></returns>
-    public Task<User> AddUser(User user);
+    public Task AddUser(User user);
     
     /// <summary>
     /// Updates user with a specific id

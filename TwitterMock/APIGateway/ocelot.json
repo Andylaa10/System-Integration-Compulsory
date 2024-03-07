@@ -4,9 +4,10 @@
   },
   "Routes": [
     {
+      "//UserService": "UserService",
       "UpstreamPathTemplate": "/api/User/AddUser",
       "UpstreamHttpMethod": [
-        "Post"
+        "POST"
       ],
       "DownstreamPathTemplate": "/api/User/AddUser",
       "DownstreamScheme": "http",
@@ -20,7 +21,7 @@
     {
       "UpstreamPathTemplate": "/api/User/GetUsers",
       "UpstreamHttpMethod": [
-        "Get"
+        "GET"
       ],
       "DownstreamPathTemplate": "/api/User/GetUsers",
       "DownstreamScheme": "http",
@@ -29,12 +30,15 @@
           "Host": "localhost",
           "Port": 5221
         }
-      ]
+      ],
+      "AddHeadersToRequest": {
+        "token": "{token}"
+      }
     },
     {
       "UpstreamPathTemplate": "/api/User/{id}",
       "UpstreamHttpMethod": [
-        "Get"
+        "GET", "PUT", "DELETE"
       ],
       "DownstreamPathTemplate": "/api/User/{id}",
       "DownstreamScheme": "http",
@@ -43,35 +47,56 @@
           "Host": "localhost",
           "Port": 5221
         }
-      ]
+      ],
+      "AddHeadersToRequest": {
+        "token": "{token}"
+      }
     },
     {
-      "UpstreamPathTemplate": "/api/User/{id}",
+      "//AuthService": "AuthService",
+      "UpstreamPathTemplate": "/api/Auth/Register",
       "UpstreamHttpMethod": [
-        "Put"
+        "POST"
       ],
-      "DownstreamPathTemplate": "/api/User/{id}",
+      "DownstreamPathTemplate": "/api/Auth/Register",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 5221
+          "Port": 5262
         }
       ]
     },
     {
-      "UpstreamPathTemplate": "/api/User/{id}",
+      "UpstreamPathTemplate": "/api/Auth/Login",
       "UpstreamHttpMethod": [
-        "Delete"
+        "POST"
       ],
-      "DownstreamPathTemplate": "/api/User/{id}",
+      "DownstreamPathTemplate": "/api/Auth/Login",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 5221
+          "Port": 5262
         }
       ]
+    },
+    {
+      "UpstreamPathTemplate": "/api/Auth/ValidateToken",
+      "UpstreamHttpMethod": [
+        "GET"
+      ],
+      "DownstreamPathTemplate": "/api/Auth/ValidateToken",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5262
+        }
+      ],
+      "AddHeadersToRequest": {
+        "token": "{token}"
+      }
     }
   ]
 }

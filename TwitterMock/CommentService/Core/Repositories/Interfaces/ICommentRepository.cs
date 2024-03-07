@@ -6,23 +6,26 @@ namespace CommentService.Core.Repositories.Interfaces;
 public interface ICommentRepository
 {
     /// <summary>
-    /// Retrieves the comments on a specific post
+    /// Retrieves the comments on a specific post in a paginated result
     /// </summary>
     /// <param name="postId"></param>
+    /// <param name="pageNumber"></param>
+    /// <param name="pageSize"></param>
     /// <returns></returns>
     public Task<PaginatedResult<Comment>> GetComments(int postId, int pageNumber, int pageSize);
 
     /// <summary>
     /// Add a comment on a post 
     /// </summary>
-    /// <param name="dto"></param>
+    /// <param name="comment"></param>
     /// <returns></returns>
     public Task AddComment(Comment comment);
 
     /// <summary>
     /// Updates a comment on a post
     /// </summary>
-    /// <param name="dto"></param>
+    /// <param name="commentId"></param>
+    /// <param name="comment"></param>
     /// <returns></returns>
     public Task UpdateComment(int commentId, Comment comment);
 

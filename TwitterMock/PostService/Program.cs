@@ -28,6 +28,8 @@ builder.Services.AddDbContext<DatabaseContext>(options =>
 builder.Services.AddScoped<IPostRepository, PostRepository>();
 builder.Services.AddScoped<IPostService, PostService.Core.Services.PostService>();
 
+builder.Services.AddHttpClient();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

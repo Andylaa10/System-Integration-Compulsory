@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Data;
+using Microsoft.EntityFrameworkCore;
 using UserService.Core.Entities;
 using UserService.Core.Entities.Helper;
 using UserService.Core.Helper;
@@ -38,8 +39,19 @@ public class UserRepository : IUserRepository
         return user;
     }
 
+    public async Task<User> GetUserByEmail(string email)
+    {
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+        if (user is null) throw new KeyNotFoundException($"No user with email: {email}");
+        return user;
+    }
+
     public async Task AddUser(User user)
     {
+        var doesEmailExist = await GetUserByEmail(user.Email);
+        
+        if (doesEmailExist is not null) throw new DuplicateNameException("Email is already in use");
+        
         await _context.Users.AddAsync(user);
         await _context.SaveChangesAsync();
     }

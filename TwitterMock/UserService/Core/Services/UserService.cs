@@ -25,7 +25,7 @@ public class UserService : IUserService
         return _mapper.Map<PaginatedResult<GetUserDTO>>(await _userRepository.GetUsers(dto.PageNumber, dto.PageSize));
     }
 
-    public async Task<GetUserDTO> GetUser(int userId)
+    public async Task<GetUserDTO> GetUserById(int userId)
     {
         if (userId < 1) throw new ArgumentException("Id cannot be less than 1");
         return _mapper.Map<GetUserDTO>(await _userRepository.GetUserById(userId));

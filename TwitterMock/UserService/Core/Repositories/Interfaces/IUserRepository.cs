@@ -21,6 +21,8 @@ public interface IUserRepository
     /// <returns></returns>
     public Task<User> GetUserById(int userId);
     
+    public Task<User> GetUserByEmail(string email);
+    
     /// <summary>
     /// Add user
     /// </summary>

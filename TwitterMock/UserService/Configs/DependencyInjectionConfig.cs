@@ -1,5 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using UserService.Core.Helper;
+using UserService.Core.Repositories;
+using UserService.Core.Repositories.Interfaces;
+using UserService.Core.Services.Interfaces;
 
 namespace UserService.Configs;
 
@@ -11,6 +14,9 @@ public static class DependencyInjectionConfig
         {
             options.UseInMemoryDatabase("UserDb");
         });
+        
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IUserService, UserService.Core.Services.UserService>();
         services.AddSingleton(AutoMapperConfig.ConfigureAutoMapper());
     }
 }

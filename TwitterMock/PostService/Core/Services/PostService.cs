@@ -21,7 +21,14 @@ namespace PostService.Core.Services
         {
             return await _postRepository.GetPosts();
         }
-        
+
+        public async Task<Post> GetPostById(int postId)
+        {
+            if (postId < 1) throw new ArgumentException("Post ID cannot be 0 or null");
+
+            return await _postRepository.GetPostById(postId);
+        }
+
         public async Task AddPost(AddPostDTO post)
         {
             if (post.UserId <= 0) throw new ArgumentException("User ID cannot be 0 or null");

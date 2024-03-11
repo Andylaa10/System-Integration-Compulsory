@@ -8,7 +8,9 @@ namespace TimeLineService.Controllers;
 [Route("api/[controller]")]
 public class TimeLineController : ControllerBase
 {
-    private ITimeLineService _timeLineService;
+    private readonly ITimeLineService _timeLineService;
+    private readonly HttpClient _client = new HttpClient();
+
 
     public TimeLineController(ITimeLineService timeLineService)
     {
@@ -16,10 +18,16 @@ public class TimeLineController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetTimeLines()
+    public async Task<IActionResult> GetTimeLines([FromHeader] string token)
     {
         try
         {
+            var url = "http://localhost:5206/api/Auth/ValidateToken";
+            _client.DefaultRequestHeaders.Add("token", token);
+            var result = await _client.GetAsync(url);
+
+            if (!result.IsSuccessStatusCode) return Unauthorized(result.RequestMessage);
+            
             return Ok(await _timeLineService.GetTimeLines());
         }
         catch (Exception e)
@@ -29,10 +37,16 @@ public class TimeLineController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddToTimeLine([FromBody] AddToTimeLineDto dto)
+    public async Task<IActionResult> AddToTimeLine([FromBody] AddToTimeLineDto dto, [FromHeader] string token)
     {
         try
         {
+            var url = "http://localhost:5206/api/Auth/ValidateToken";
+            _client.DefaultRequestHeaders.Add("token", token);
+            var result = await _client.GetAsync(url);
+
+            if (!result.IsSuccessStatusCode) return Unauthorized(result.RequestMessage);
+            
             await _timeLineService.AddToTimeLine(dto);
             return StatusCode(201, "Post successfully added to the timeline");
         }
@@ -44,10 +58,16 @@ public class TimeLineController : ControllerBase
 
     [HttpDelete]
     [Route("{postId}")]
-    public async Task<IActionResult> DeletePostFromTimeLine([FromRoute] int postId)
+    public async Task<IActionResult> DeletePostFromTimeLine([FromRoute] int postId, [FromHeader] string token)
     {
         try
         {
+            var url = "http://localhost:5206/api/Auth/ValidateToken";
+            _client.DefaultRequestHeaders.Add("token", token);
+            var result = await _client.GetAsync(url);
+
+            if (!result.IsSuccessStatusCode) return Unauthorized(result.RequestMessage);
+            
             await _timeLineService.DeleteFromTimeLine(postId);
             return Ok();
         }

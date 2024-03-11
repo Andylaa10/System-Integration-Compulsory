@@ -18,8 +18,7 @@ public class UserService : IUserService
         _userRepository = userRepository ?? throw new ArgumentException("User repository cannot be null");
         _mapper = mapper ?? throw new ArgumentException("Automapper cannot be null");
     }
-
-
+    
     public async Task<PaginatedResult<GetUserDTO>> GetUsers(PaginatedDTO dto)
     {
         return _mapper.Map<PaginatedResult<GetUserDTO>>(await _userRepository.GetUsers(dto.PageNumber, dto.PageSize));
@@ -38,12 +37,14 @@ public class UserService : IUserService
         await _userRepository.AddUser(_mapper.Map<User>(user));
     }
 
-    public Task UpdateUser(int userId, UpdateUserDTO user)
+    public async Task UpdateUser(int userId, UpdateUserDTO user)
     {
-        if (userId < 1) 
-            throw new ArgumentException("Id cannot be less than 1");
+        var doesUserExist = await _userRepository.DoesUserExist(userId);
+        if (!doesUserExist) throw new ArgumentException("This user ID doesn't exist in the database");
+        if (userId != user.Id) throw new ArgumentException("ID in the route is not the same as ID in the body");
+        if (userId < 1) throw new ArgumentException("Id cannot be less than 1");
         
-        return _userRepository.UpdateUser(userId, _mapper.Map<User>(user));
+        await _userRepository.UpdateUser(userId, _mapper.Map<User>(user));
     }
 
     public async Task DeleteUser(int userId)

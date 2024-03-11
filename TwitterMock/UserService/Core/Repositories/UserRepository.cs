@@ -48,7 +48,7 @@ public class UserRepository : IUserRepository
 
     public async Task AddUser(User user)
     {
-        var doesEmailExist = await GetUserByEmail(user.Email);
+        var doesEmailExist = await _context.Users.FirstOrDefaultAsync(u => u.Email == user.Email);
         
         if (doesEmailExist is not null) throw new DuplicateNameException("Email is already in use");
         

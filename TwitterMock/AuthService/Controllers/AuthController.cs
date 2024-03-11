@@ -1,3 +1,6 @@
+using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using AuthService.Core.Services.Dtos;
 using AuthService.Core.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +12,8 @@ namespace AuthService.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly IAuthService _authService;
+    private readonly HttpClient _client = new HttpClient();
+
 
     public AuthController(IAuthService authService)
     {
@@ -22,14 +27,25 @@ public class AuthController : ControllerBase
         try
         {
             await _authService.Register(dto);
-            return StatusCode(201, "Succesfully registered");
+
+            var url = "http://localhost:5206/api/User/AddUser";
+            var payload = JsonSerializer.Serialize(dto);
+            var content = new StringContent(payload, Encoding.UTF8, "application/json");
+            var result = await _client.PostAsync(url, content);
+
+            if (result.IsSuccessStatusCode)
+            {
+                return StatusCode(201, "Successfully registered");
+            }
+
+            return BadRequest(result.RequestMessage);
         }
         catch (Exception e)
         {
             return BadRequest(e.Message);
         }
     }
-    
+
     [HttpPost]
     [Route("Login")]
     public async Task<IActionResult> Login([FromBody] LoginDto dto)
@@ -50,7 +66,13 @@ public class AuthController : ControllerBase
     {
         try
         {
-            return Ok(await _authService.ValidateToken(token));
+            var result = await _authService.ValidateToken(token);
+            if (result)
+            {
+                return Ok(result);
+            }
+
+            return Unauthorized();
         }
         catch (Exception e)
         {

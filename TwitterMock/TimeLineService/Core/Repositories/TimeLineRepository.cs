@@ -27,8 +27,11 @@ public class TimeLineRepository : ITimeLineRepository
 
     public async Task DeleteFromTimeLine(int postId)
     {
-        var postsToDelete = await _context.TimeLines.Where(t => t.PostId == postId).ToListAsync();
-        _context.TimeLines.RemoveRange(postsToDelete);
+        var postsToDelete = await _context.TimeLines.FirstOrDefaultAsync(p => p.PostId == postId);
+
+        if (postsToDelete == null) throw new KeyNotFoundException($"No post with the id of {postId}");
+        
+        _context.TimeLines.Remove(postsToDelete);
         await _context.SaveChangesAsync();
     }
 }

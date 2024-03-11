@@ -9,6 +9,8 @@ namespace PostService.Controllers;
 public class PostController : ControllerBase
 {
     private readonly IPostService _postService;
+    private readonly HttpClient _client = new HttpClient();
+
 
     //TODO Check if user exists
     public PostController(IPostService postService)
@@ -17,10 +19,15 @@ public class PostController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetPosts()
+    public async Task<IActionResult> GetPosts([FromHeader] string token)
     {
         try
         {
+            var url = "http://localhost:5206/api/Auth/ValidateToken";
+            _client.DefaultRequestHeaders.Add("token", token);
+            var result = await _client.GetAsync(url);
+
+            if (!result.IsSuccessStatusCode) return Unauthorized(result.RequestMessage);
             return Ok(await _postService.GetPosts());
         }
         catch (Exception e)
@@ -29,11 +36,35 @@ public class PostController : ControllerBase
         }
     }
 
-    [HttpPost]
-    public async Task<IActionResult> AddPost([FromBody] AddPostDTO dto)
+    [HttpGet]
+    [Route("{postId}")]
+    public async Task<IActionResult> GetPostById([FromRoute] int postId, [FromHeader] string token)
     {
         try
         {
+            var url = "http://localhost:5206/api/Auth/ValidateToken";
+            _client.DefaultRequestHeaders.Add("token", token);
+            var result = await _client.GetAsync(url);
+
+            if (!result.IsSuccessStatusCode) return Unauthorized(result.RequestMessage);
+            return Ok(await _postService.GetPostById(postId));
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AddPost([FromBody] AddPostDTO dto, [FromHeader] string token)
+    {
+        try
+        {
+            var url = "http://localhost:5206/api/Auth/ValidateToken";
+            _client.DefaultRequestHeaders.Add("token", token);
+            var result = await _client.GetAsync(url);
+
+            if (!result.IsSuccessStatusCode) return Unauthorized(result.RequestMessage);
             await _postService.AddPost(dto);
             return StatusCode(201, "Post successfully added");
         }
@@ -45,10 +76,16 @@ public class PostController : ControllerBase
 
     [HttpPut]
     [Route("{postId}")]
-    public async Task<IActionResult> UpdatePost([FromRoute] int postId, [FromBody] UpdatePostDTO dto)
+    public async Task<IActionResult> UpdatePost([FromRoute] int postId, [FromBody] UpdatePostDTO dto, [FromHeader] string token)
     {
         try
         {
+            var url = "http://localhost:5206/api/Auth/ValidateToken";
+            _client.DefaultRequestHeaders.Add("token", token);
+            var result = await _client.GetAsync(url);
+
+            if (!result.IsSuccessStatusCode) return Unauthorized(result.RequestMessage);
+            
             await _postService.UpdatePost(postId, dto);
             return Ok();
         }
@@ -60,10 +97,16 @@ public class PostController : ControllerBase
 
     [HttpDelete]
     [Route("{postId}")]
-    public async Task<IActionResult> DeletePost([FromRoute] int postId)
+    public async Task<IActionResult> DeletePost([FromRoute] int postId, [FromHeader] string token)
     {
         try
         {
+            var url = "http://localhost:5206/api/Auth/ValidateToken";
+            _client.DefaultRequestHeaders.Add("token", token);
+            var result = await _client.GetAsync(url);
+
+            if (!result.IsSuccessStatusCode) return Unauthorized(result.RequestMessage);
+            
             await _postService.DeletePost(postId);
             return Ok();
         }

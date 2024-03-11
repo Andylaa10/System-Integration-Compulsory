@@ -38,7 +38,9 @@
     {
       "UpstreamPathTemplate": "/api/User/{id}",
       "UpstreamHttpMethod": [
-        "GET", "PUT", "DELETE"
+        "GET",
+        "PUT",
+        "DELETE"
       ],
       "DownstreamPathTemplate": "/api/User/{id}",
       "DownstreamScheme": "http",
@@ -92,6 +94,149 @@
         {
           "Host": "localhost",
           "Port": 5262
+        }
+      ],
+      "AddHeadersToRequest": {
+        "token": "{token}"
+      }
+    },
+    {
+      "//PostService": "PostService",
+      "UpstreamPathTemplate": "/api/Post",
+      "UpstreamHttpMethod": [
+        "GET"
+      ],
+      "DownstreamPathTemplate": "/api/Post",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5016
+        }
+      ],
+      "AddHeadersToRequest": {
+        "token": "{token}"
+      }
+    },
+    {
+      "UpstreamPathTemplate": "/api/Post/{id}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "PUT",
+        "DELETE"
+      ],
+      "DownstreamPathTemplate": "/api/Post/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5016
+        }
+      ],
+      "AddHeadersToRequest": {
+        "token": "{token}"
+      }
+    },
+    {
+      "UpstreamPathTemplate": "/api/Post",
+      "UpstreamHttpMethod": [
+        "POST"
+      ],
+      "DownstreamPathTemplate": "/api/Post",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5016
+        }
+      ],
+      "AddHeadersToRequest": {
+        "token": "{token}"
+      }
+    },
+    {
+      "//CommentService": "CommentService",
+      "UpstreamPathTemplate": "/api/Comment/{postId}",
+      "UpstreamHttpMethod": [
+        "GET"
+      ],
+      "DownstreamPathTemplate": "/api/Comment/{postId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5132
+        }
+      ],
+      "AddHeadersToRequest": {
+        "token": "{token}"
+      }
+    },
+    {
+      "UpstreamPathTemplate": "/api/Comment/{id}",
+      "UpstreamHttpMethod": [
+        "PUT",
+        "DELETE"
+      ],
+      "DownstreamPathTemplate": "/api/Comment/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5132
+        }
+      ],
+      "AddHeadersToRequest": {
+        "token": "{token}"
+      }
+    },
+    {
+      "UpstreamPathTemplate": "/api/Comment",
+      "UpstreamHttpMethod": [
+        "POST"
+      ],
+      "DownstreamPathTemplate": "/api/Comment/",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5132
+        }
+      ],
+      "AddHeadersToRequest": {
+        "token": "{token}"
+      }
+    },
+    {
+      "//TimeLineService": "TimeLineService",
+      "UpstreamPathTemplate": "/api/TimeLine",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST"
+      ],
+      "DownstreamPathTemplate": "/api/TimeLine",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5092
+        }
+      ],
+      "AddHeadersToRequest": {
+        "token": "{token}"
+      }
+    },
+    {
+      "UpstreamPathTemplate": "/api/TimeLine/{id}",
+      "UpstreamHttpMethod": [
+        "DELETE"
+      ],
+      "DownstreamPathTemplate": "/api/TimeLine/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5092
         }
       ],
       "AddHeadersToRequest": {

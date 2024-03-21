@@ -15,6 +15,8 @@ namespace AuthService.Core.Services;
 public class AuthService : IAuthService
 {
     private readonly IAuthRepository _authRepository;
+    private const string SecurityKey = "mMdAhocQbIAa1/4iD8W5BiDCD9Lxg9ULp4qROgJVN8oRZommyAsnRalnNlzWGbKGJItr/kh2jVd2d9brhSBAJttV7NE47dvyX6n36cFKlnz3k9AodqqVgH/S52oQMYamtI+HsQqBmsvZMqOE+oGlEIzJG9tmDZ1JE/qJHq+bXo3RCEuBf26dGuIG4DWpjh+G4xTVC7ZoByCmq5zTUUyTlFZCQ2483iJe1Thkem9mlzt3cOy8O5SYJBafIb0xdIBYEoHl56Z805fO/W4eAw+M5stSCUdJTBUtWbCiId9zSapmilb20sCg4l5xYTsaJImTfHlo0t9kF1o/RXwr1cw3zCPoyt9tjWhZ83LMsi1ydBg=";
+
 
     public AuthService(IAuthRepository authRepository)
     {
@@ -62,7 +64,6 @@ public class AuthService : IAuthService
     {
         if (token.IsNullOrEmpty())return await Task.Run(()=>false);;
         
-        string secretKeyString  = "SuperSecret123!SuperSecret123!1234";
         
         var validationParameters = new TokenValidationParameters
         {
@@ -70,7 +71,7 @@ public class AuthService : IAuthService
             ValidateAudience = false,
             ValidateLifetime = false,
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKeyString))
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SecurityKey))
         };
 
         try
@@ -87,18 +88,18 @@ public class AuthService : IAuthService
 
     private AuthenticationToken GenerateToken(Auth auth)
     {
-        const string secretKey1  = "SuperSecret123!SuperSecret123!1234";
-        
-        var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey1));
+        var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SecurityKey));
         var signingCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-        
+    
         var claims = new List<Claim>
         {
+            new("Id", auth.Id.ToString()),
         };
-        
+
         var tokenOptions = new JwtSecurityToken(
-            signingCredentials: signingCredentials,
-            claims: claims
+            claims: claims,
+            expires: DateTime.UtcNow.AddHours(1),
+            signingCredentials: signingCredentials
         );
 
         var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);

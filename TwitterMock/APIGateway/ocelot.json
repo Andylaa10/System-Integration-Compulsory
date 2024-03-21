@@ -33,7 +33,8 @@
       ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
+        "AllowedScopes": [
+        ]
       }
     },
     {
@@ -51,8 +52,10 @@
           "Port": 80
         }
       ],
-      "AddHeadersToRequest": {
-        "token": "{token}"
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [
+        ]
       }
     },
     {
@@ -115,8 +118,10 @@
           "Port": 80
         }
       ],
-      "AddHeadersToRequest": {
-        "token": "{token}"
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [
+        ]
       }
     },
     {
@@ -134,8 +139,10 @@
           "Port": 80
         }
       ],
-      "AddHeadersToRequest": {
-        "token": "{token}"
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [
+        ]
       }
     },
     {
@@ -151,8 +158,10 @@
           "Port": 80
         }
       ],
-      "AddHeadersToRequest": {
-        "token": "{token}"
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [
+        ]
       }
     },
     {
@@ -187,8 +196,10 @@
           "Port": 80
         }
       ],
-      "AddHeadersToRequest": {
-        "token": "{token}"
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [
+        ]
       }
     },
     {
@@ -204,8 +215,10 @@
           "Port": 80
         }
       ],
-      "AddHeadersToRequest": {
-        "token": "{token}"
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [
+        ]
       }
     },
     {
@@ -239,7 +252,12 @@
           "Host": "TimeLineService",
           "Port": 80
         }
-      ]
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [
+        ]
+      }
     },
     {
       "UpstreamPathTemplate": "/api/TimeLine/{id}",
@@ -254,8 +272,10 @@
           "Port": 80
         }
       ],
-      "AddHeadersToRequest": {
-        "token": "{token}"
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [
+        ]
       }
     }
   ]

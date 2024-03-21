@@ -1,0 +1,92 @@
+version: '3.7'
+
+services:
+  APIGateway:
+    image: apigateway
+    build:
+      context: .
+      dockerfile: ./APIGateway/Dockerfile
+    ports:
+      - "5206:80"
+    networks:
+      - local_network
+  
+  AuthService:
+    image: authservice
+    build:
+      context: .
+      dockerfile: ./AuthService/Dockerfile
+    networks:
+      - local_network
+    depends_on:
+      - APIGateway
+  
+  UserService:
+    image: userservice
+    build:
+      context: .
+      dockerfile: ./UserService/Dockerfile
+    networks:
+      - local_network
+    depends_on:
+      - AuthService
+  
+  CommentService:
+    image: commentservice
+    build:
+      context: .
+      dockerfile: ./CommentService/Dockerfile
+    networks:
+      - local_network
+    depends_on:
+      - AuthService
+      - UserService
+  
+  
+  LikeService:
+    image: likeservice
+    build:
+      context: .
+      dockerfile: ./LikeService/Dockerfile
+    networks:
+      - local_network
+    depends_on:
+      - AuthService
+      - UserService
+      
+  TimeLineService:
+    image: timelineservice
+    build:
+      context: .
+      dockerfile: ./TimeLineService/Dockerfile
+    networks:
+      - local_network
+    depends_on:
+      - AuthService
+      - UserService
+  
+  PostService:
+    image: postservice
+    build:
+      context: .
+      dockerfile: ./PostService/Dockerfile
+    networks:
+      - local_network
+    depends_on:
+      - AuthService
+      - UserService
+  
+  FriendService:
+    image: friendservice
+    build:
+      context: .
+      dockerfile: ./FriendService/Dockerfile
+    networks:
+      - local_network
+    depends_on:
+      - AuthService
+      - UserService
+
+networks:
+  local_network:
+    driver: bridge  

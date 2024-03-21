@@ -1,3 +1,4 @@
+using System.Data.Common;
 using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
@@ -67,9 +68,11 @@ public class PostController : ControllerBase
             var resultToken = await _client.GetAsync(urlToken);
 
             if (!resultToken.IsSuccessStatusCode) return Unauthorized(resultToken.RequestMessage);
-            await _postService.AddPost(dto);
+            var post = await _postService.AddPost(dto);
+
+            dto.PostId = post.Id;
             
-            var url = "http://localhost:5206/api/Timeline";
+            var url = "http://localhost:5206/api/TimeLine";
             var payload = JsonSerializer.Serialize(dto);
             var content = new StringContent(payload, Encoding.UTF8, "application/json");
             var result = await _client.PostAsync(url, content);

@@ -37,7 +37,7 @@ public class TimeLineController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddToTimeLine([FromBody] AddToTimeLineDto dto, [FromHeader] string token)
+    public async Task<IActionResult> AddToTimeLine([FromBody] AddToTimeLineDto dto)
     {
         try
         {

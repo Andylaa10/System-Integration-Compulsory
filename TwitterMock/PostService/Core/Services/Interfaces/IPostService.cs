@@ -9,7 +9,7 @@ namespace PostService.Core.Services.Interfaces
         
         public Task<Post> GetPostById(int postId);
         
-        public Task AddPost(AddPostDTO comment);
+        public Task<Post> AddPost(AddPostDTO comment);
         
         public Task UpdatePost(int postId, UpdatePostDTO post);
         

@@ -41,18 +41,6 @@ services:
     depends_on:
       - AuthService
       - UserService
-  
-  
-  LikeService:
-    image: likeservice
-    build:
-      context: .
-      dockerfile: ./LikeService/Dockerfile
-    networks:
-      - local_network
-    depends_on:
-      - AuthService
-      - UserService
       
   TimeLineService:
     image: timelineservice
@@ -63,7 +51,6 @@ services:
       - local_network
     depends_on:
       - AuthService
-      - UserService
   
   PostService:
     image: postservice
@@ -74,18 +61,6 @@ services:
       - local_network
     depends_on:
       - AuthService
-      - UserService
-  
-  FriendService:
-    image: friendservice
-    build:
-      context: .
-      dockerfile: ./FriendService/Dockerfile
-    networks:
-      - local_network
-    depends_on:
-      - AuthService
-      - UserService
 
 networks:
   local_network:

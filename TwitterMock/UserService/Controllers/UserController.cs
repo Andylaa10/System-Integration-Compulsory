@@ -25,7 +25,7 @@ public class UserController : ControllerBase
         try
         {
             await _userService.CreateUser(dto);
-            return StatusCode(201, "Succesfully added user to DB");
+            return StatusCode(201, "Successfully added user to DB");
         }
         catch (Exception e)
         {

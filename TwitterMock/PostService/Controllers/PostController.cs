@@ -1,3 +1,5 @@
+using System.Text;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using PostService.Core.Services.DTOs;
 using PostService.Core.Services.Interfaces;
@@ -60,13 +62,24 @@ public class PostController : ControllerBase
     {
         try
         {
-            var url = "http://localhost:5206/api/Auth/ValidateToken";
+            var urlToken = "http://localhost:5206/api/Auth/ValidateToken";
             _client.DefaultRequestHeaders.Add("token", token);
-            var result = await _client.GetAsync(url);
+            var resultToken = await _client.GetAsync(urlToken);
 
-            if (!result.IsSuccessStatusCode) return Unauthorized(result.RequestMessage);
+            if (!resultToken.IsSuccessStatusCode) return Unauthorized(resultToken.RequestMessage);
             await _postService.AddPost(dto);
-            return StatusCode(201, "Post successfully added");
+            
+            var url = "http://localhost:5206/api/Timeline";
+            var payload = JsonSerializer.Serialize(dto);
+            var content = new StringContent(payload, Encoding.UTF8, "application/json");
+            var result = await _client.PostAsync(url, content);
+
+            if (result.IsSuccessStatusCode)
+            {
+                return StatusCode(201, "Post successfully added");
+            }
+
+            return BadRequest(result.RequestMessage);
         }
         catch (Exception e)
         {

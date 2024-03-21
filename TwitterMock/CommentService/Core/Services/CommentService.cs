@@ -55,4 +55,10 @@ public class CommentService : ICommentService
         await _commentRepository.DeleteComment(commentId);
 
     }
+
+    public async Task DeleteCommentsOnPost(int postId)
+    {
+        if (postId < 1) throw new ArgumentException("Id cannot be less than 1");
+        await _commentRepository.DeleteCommentsOnPost(postId);
+    }
 }

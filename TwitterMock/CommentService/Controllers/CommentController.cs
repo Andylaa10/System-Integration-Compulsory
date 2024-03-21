@@ -22,7 +22,7 @@ public class CommentController : ControllerBase
     {
         try
         {
-            var url = "http://AuthService:5206/api/Auth/ValidateToken";
+            var url = "http://AuthService/api/Auth/ValidateToken";
             _client.DefaultRequestHeaders.Add("token", token);
             var result = await _client.GetAsync(url);
 
@@ -40,7 +40,7 @@ public class CommentController : ControllerBase
     {
         try
         {
-            var url = "http://AuthService:5206/api/Auth/ValidateToken";
+            var url = "http://AuthService/api/Auth/ValidateToken";
             _client.DefaultRequestHeaders.Add("token", token);
             var result = await _client.GetAsync(url);
 
@@ -61,7 +61,7 @@ public class CommentController : ControllerBase
     {
         try
         {
-            var url = "http://AuthService:5206/api/Auth/ValidateToken";
+            var url = "http://AuthService/api/Auth/ValidateToken";
             _client.DefaultRequestHeaders.Add("token", token);
             var result = await _client.GetAsync(url);
 
@@ -82,13 +82,28 @@ public class CommentController : ControllerBase
     {
         try
         {
-            var url = "http://AuthService:5206/api/Auth/ValidateToken";
+            var url = "http://AuthService/api/Auth/ValidateToken";
             _client.DefaultRequestHeaders.Add("token", token);
             var result = await _client.GetAsync(url);
 
             if (!result.IsSuccessStatusCode) return Unauthorized(result.RequestMessage);
             
             await _commentService.DeleteComment(commentId);
+            return Ok();
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
+    [HttpDelete]
+    [Route("DeleteCommentsOnPost/{postId}")]
+    public async Task<IActionResult> DeleteCommentsOnPost([FromRoute] int postId)
+    {
+        try
+        {
+            await _commentService.DeleteCommentsOnPost(postId);
             return Ok();
         }
         catch (Exception e)

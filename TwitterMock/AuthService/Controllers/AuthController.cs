@@ -28,7 +28,7 @@ public class AuthController : ControllerBase
         {
             await _authService.Register(dto);
 
-            var url = "http://UserService:5206/api/User/AddUser";
+            var url = "http://UserService/api/User/AddUser";
             var payload = JsonSerializer.Serialize(dto);
             var content = new StringContent(payload, Encoding.UTF8, "application/json");
             var result = await _client.PostAsync(url, content);

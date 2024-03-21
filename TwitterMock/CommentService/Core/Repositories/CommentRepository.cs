@@ -61,6 +61,13 @@ public class CommentRepository : ICommentRepository
         await _context.SaveChangesAsync();
     }
 
+    public async Task DeleteCommentsOnPost(int postId)
+    {
+        var comments = await _context.Comments.Where(c => c.PostId == postId).ToListAsync();
+        if (comments.Count < 1) throw new ArgumentException($"Can not find comments with the id of {postId}");
+        _context.Comments.RemoveRange(comments);
+    }
+
     public async Task<bool> DoesCommentExists(int commentId)
     {
         var comment = await _context.Comments.FirstOrDefaultAsync(c => c.Id == commentId);

@@ -33,4 +33,11 @@ public interface ICommentService
     /// <param name="commentId"></param>
     /// <returns></returns>
     public Task DeleteComment(int commentId);
+    
+    /// <summary>
+    /// Deletes comments with the given postId 
+    /// </summary>
+    /// <param name="postId"></param>
+    /// <returns></returns>
+    public Task DeleteCommentsOnPost(int postId);
 }

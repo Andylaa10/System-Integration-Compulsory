@@ -26,7 +26,7 @@ public class PostController : ControllerBase
     {
         try
         {
-            var url = "http://AuthService:5206/api/Auth/ValidateToken";
+            var url = "http://AuthService/api/Auth/ValidateToken";
             _client.DefaultRequestHeaders.Add("token", token);
             var result = await _client.GetAsync(url);
 
@@ -45,7 +45,7 @@ public class PostController : ControllerBase
     {
         try
         {
-            var url = "http://AuthService:5206/api/Auth/ValidateToken";
+            var url = "http://AuthService/api/Auth/ValidateToken";
             _client.DefaultRequestHeaders.Add("token", token);
             var result = await _client.GetAsync(url);
 
@@ -63,7 +63,7 @@ public class PostController : ControllerBase
     {
         try
         {
-            var urlToken = "http://AuthService:5206/api/Auth/ValidateToken";
+            var urlToken = "http://AuthService/api/Auth/ValidateToken";
             _client.DefaultRequestHeaders.Add("token", token);
             var resultToken = await _client.GetAsync(urlToken);
 
@@ -72,7 +72,7 @@ public class PostController : ControllerBase
 
             dto.PostId = post.Id;
             
-            var url = "http://TimeLineService:5206/api/TimeLine";
+            var url = "http://TimeLineService/api/TimeLine";
             var payload = JsonSerializer.Serialize(dto);
             var content = new StringContent(payload, Encoding.UTF8, "application/json");
             var result = await _client.PostAsync(url, content);
@@ -96,7 +96,7 @@ public class PostController : ControllerBase
     {
         try
         {
-            var url = "http://AuthService:5206/api/Auth/ValidateToken";
+            var url = "http://AuthService/api/Auth/ValidateToken";
             _client.DefaultRequestHeaders.Add("token", token);
             var result = await _client.GetAsync(url);
 
@@ -117,13 +117,18 @@ public class PostController : ControllerBase
     {
         try
         {
-            var url = "http://AuthService:5206/api/Auth/ValidateToken";
+            var urlToken = "http://AuthService/api/Auth/ValidateToken";
             _client.DefaultRequestHeaders.Add("token", token);
-            var result = await _client.GetAsync(url);
+            var resultToken = await _client.GetAsync(urlToken);
 
-            if (!result.IsSuccessStatusCode) return Unauthorized(result.RequestMessage);
-            
+            if (!resultToken.IsSuccessStatusCode) return Unauthorized(resultToken.RequestMessage);
             await _postService.DeletePost(postId);
+
+            var urlComment = $"http://CommentService/api/Comment/DeleteCommentsOnPost/{postId}"; 
+            var result = await _client.DeleteAsync(urlComment);
+
+            if (!result.IsSuccessStatusCode) return BadRequest(result.RequestMessage);
+            
             return Ok();
         }
         catch (Exception e)

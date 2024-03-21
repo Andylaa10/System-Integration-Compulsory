@@ -22,7 +22,7 @@ public class TimeLineController : ControllerBase
     {
         try
         {
-            var url = "http://AuthService:5206/api/Auth/ValidateToken";
+            var url = "http://AuthService/api/Auth/ValidateToken";
             _client.DefaultRequestHeaders.Add("token", token);
             var result = await _client.GetAsync(url);
 
@@ -58,7 +58,7 @@ public class TimeLineController : ControllerBase
     {
         try
         {
-            var url = "http://AuthService:5206/api/Auth/ValidateToken";
+            var url = "http://AuthService/api/Auth/ValidateToken";
             _client.DefaultRequestHeaders.Add("token", token);
             var result = await _client.GetAsync(url);
 

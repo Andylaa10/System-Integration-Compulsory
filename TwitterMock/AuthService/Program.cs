@@ -23,18 +23,19 @@ builder.Services.AddDbContext<DatabaseContext>(options =>
     options.UseInMemoryDatabase("AuthDb"));
 
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
-{
-    string secretKeyString  = "SuperSecret123!SuperSecret123!1234";
-
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateAudience = false,
-        ValidateIssuer = false,
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKeyString))
-    };
-});
+// builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+// {
+//     const string secretKeyString  = "SuperSecret123!SuperSecret123!1234";
+//
+//     options.TokenValidationParameters = new TokenValidationParameters
+//     {
+//         ValidateIssuer = false,
+//         ValidateAudience = false,
+//         ValidateLifetime = false,
+//         ValidateIssuerSigningKey = true,
+//         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKeyString))
+//     };
+// });
 
 var app = builder.Build();
 
@@ -44,6 +45,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

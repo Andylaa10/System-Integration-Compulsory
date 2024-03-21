@@ -7,6 +7,7 @@ using AuthService.Core.Entities;
 using AuthService.Core.Repositories.Interfaces;
 using AuthService.Core.Services.Dtos;
 using AuthService.Core.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.IdentityModel.Tokens;
 
 namespace AuthService.Core.Services;
@@ -44,7 +45,7 @@ public class AuthService : IAuthService
         await _authRepository.Register(newAuth);
     }
 
-    public async Task<TokenDto> Login(LoginDto auth)
+    public async Task<AuthenticationToken> Login(LoginDto auth)
     {
         var loggedInUser = await _authRepository.GetAuthByEmail(auth.Email);
         if (loggedInUser == null) throw new Exception("Invalid login");
@@ -65,11 +66,11 @@ public class AuthService : IAuthService
         
         var validationParameters = new TokenValidationParameters
         {
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKeyString)),
             ValidateIssuer = false,
             ValidateAudience = false,
-            ValidateLifetime = true
+            ValidateLifetime = false,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKeyString))
         };
 
         try
@@ -84,27 +85,28 @@ public class AuthService : IAuthService
         }
     }
 
-    private TokenDto GenerateToken(Auth auth)
+    private AuthenticationToken GenerateToken(Auth auth)
     {
-        string secretKeyString  = "SuperSecret123!SuperSecret123!1234";
+        const string secretKey1  = "SuperSecret123!SuperSecret123!1234";
         
-        var tokenDescriptor = new SecurityTokenDescriptor
+        var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey1));
+        var signingCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+        
+        var claims = new List<Claim>
         {
-            Subject = new ClaimsIdentity(new[]
-            {
-                new Claim("Id", auth.Id.ToString()),
-                new Claim("Email", auth.Email),
-            }),
-            Expires = DateTime.Now.AddDays(7),
-            SigningCredentials =
-                new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKeyString)), SecurityAlgorithms.HmacSha256Signature)
+        };
+        
+        var tokenOptions = new JwtSecurityToken(
+            signingCredentials: signingCredentials,
+            claims: claims
+        );
+
+        var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+        var authToken = new AuthenticationToken
+        {
+            Value = tokenString,
         };
 
-        var tokenHandler = new JwtSecurityTokenHandler();
-        var tokenDto = new TokenDto
-        {
-            Token = tokenHandler.WriteToken(tokenHandler.CreateToken(tokenDescriptor))
-        };
-        return tokenDto;
+        return authToken;
     }
 }

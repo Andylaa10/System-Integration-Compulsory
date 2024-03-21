@@ -37,6 +37,13 @@ public interface ICommentRepository
     public Task DeleteComment(int commentId);
 
     /// <summary>
+    /// Deletes comments with the given postId 
+    /// </summary>
+    /// <param name="postId"></param>
+    /// <returns></returns>
+    public Task DeleteCommentsOnPost(int postId);
+
+    /// <summary>
     /// Check whether a comment exist with the specified id
     /// </summary>
     /// <param name="commentId"></param>

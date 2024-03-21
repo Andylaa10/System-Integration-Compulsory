@@ -31,8 +31,9 @@
           "Port": 80
         }
       ],
-      "AddHeadersToRequest": {
-        "token": "{token}"
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
       }
     },
     {
@@ -196,6 +197,23 @@
         "POST"
       ],
       "DownstreamPathTemplate": "/api/Comment/",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "CommentService",
+          "Port": 80
+        }
+      ],
+      "AddHeadersToRequest": {
+        "token": "{token}"
+      }
+    },
+    {
+      "UpstreamPathTemplate": "/api/Comment/DeleteCommentsOnPost/{postId}",
+      "UpstreamHttpMethod": [
+        "DELETE"
+      ],
+      "DownstreamPathTemplate": "/api/Comment/DeleteCommentsOnPost/{postId}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {

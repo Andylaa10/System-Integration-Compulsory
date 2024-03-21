@@ -37,15 +37,11 @@ public class TimeLineController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddToTimeLine([FromBody] AddToTimeLineDto dto, [FromHeader] string token)
+    public async Task<IActionResult> AddToTimeLine([FromBody] AddToTimeLineDto dto)
     {
         try
         {
-            var url = "http://localhost:5206/api/Auth/ValidateToken";
-            _client.DefaultRequestHeaders.Add("token", token);
-            var result = await _client.GetAsync(url);
-
-            if (!result.IsSuccessStatusCode) return Unauthorized(result.RequestMessage);
+            // We are not checking the Token, because we already check that in the PostController where we make this API call
             
             await _timeLineService.AddToTimeLine(dto);
             return StatusCode(201, "Post successfully added to the timeline");

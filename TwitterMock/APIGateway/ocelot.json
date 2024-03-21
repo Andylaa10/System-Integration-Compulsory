@@ -221,10 +221,7 @@
           "Host": "localhost",
           "Port": 5092
         }
-      ],
-      "AddHeadersToRequest": {
-        "token": "{token}"
-      }
+      ]
     },
     {
       "UpstreamPathTemplate": "/api/TimeLine/{id}",

@@ -8,7 +8,7 @@ public interface IPostRepository
     public Task<IEnumerable<Post>> GetPosts();
 
     public Task<Post> GetPostById(int postId);
-    public Task AddPost(Post post);
+    public Task<Post> AddPost(Post post);
     
     public Task UpdatePost(int postId, Post post);
     

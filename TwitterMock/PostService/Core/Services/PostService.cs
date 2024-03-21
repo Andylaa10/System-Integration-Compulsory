@@ -29,11 +29,11 @@ namespace PostService.Core.Services
             return await _postRepository.GetPostById(postId);
         }
 
-        public async Task AddPost(AddPostDTO post)
+        public async Task<Post> AddPost(AddPostDTO post)
         {
             if (post.UserId <= 0) throw new ArgumentException("User ID cannot be 0 or null");
             
-            await _postRepository.AddPost(_mapper.Map<Post>(post));
+            return await _postRepository.AddPost(_mapper.Map<Post>(post));
         }
 
         public async Task UpdatePost(int postId, UpdatePostDTO post)

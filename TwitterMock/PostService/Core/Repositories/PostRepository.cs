@@ -31,10 +31,11 @@ public class PostRepository : IPostRepository
         return post;
     }
 
-    public async Task AddPost(Post post)
+    public async Task<Post> AddPost(Post post)
     {
         await _context.Posts.AddAsync(post);
         await _context.SaveChangesAsync();
+        return post;
     }
 
     public async Task UpdatePost(int postId, Post updatedPost)

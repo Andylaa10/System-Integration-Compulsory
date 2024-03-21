@@ -13,8 +13,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5221
+          "Host": "UserService",
+          "Port": 80
         }
       ]
     },
@@ -27,8 +27,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5221
+          "Host": "UserService",
+          "Port": 80
         }
       ],
       "AddHeadersToRequest": {
@@ -46,8 +46,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5221
+          "Host": "UserService",
+          "Port": 80
         }
       ],
       "AddHeadersToRequest": {
@@ -64,8 +64,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5262
+          "Host": "AuthService",
+          "Port": 80
         }
       ]
     },
@@ -78,8 +78,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5262
+          "Host": "AuthService",
+          "Port": 80
         }
       ]
     },
@@ -92,8 +92,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5262
+          "Host": "AuthService",
+          "Port": 80
         }
       ],
       "AddHeadersToRequest": {
@@ -110,8 +110,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5016
+          "Host": "PostService",
+          "Port": 80
         }
       ],
       "AddHeadersToRequest": {
@@ -129,8 +129,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5016
+          "Host": "PostService",
+          "Port": 80
         }
       ],
       "AddHeadersToRequest": {
@@ -146,8 +146,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5016
+          "Host": "PostService",
+          "Port": 80
         }
       ],
       "AddHeadersToRequest": {
@@ -164,8 +164,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5132
+          "Host": "CommentService",
+          "Port": 80
         }
       ],
       "AddHeadersToRequest": {
@@ -182,8 +182,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5132
+          "Host": "CommentService",
+          "Port": 80
         }
       ],
       "AddHeadersToRequest": {
@@ -199,8 +199,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5132
+          "Host": "CommentService",
+          "Port": 80
         }
       ],
       "AddHeadersToRequest": {
@@ -218,8 +218,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5092
+          "Host": "TimeLineService",
+          "Port": 80
         }
       ]
     },
@@ -232,8 +232,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5092
+          "Host": "TimeLineService",
+          "Port": 80
         }
       ],
       "AddHeadersToRequest": {

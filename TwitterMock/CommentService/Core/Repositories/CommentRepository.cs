@@ -79,4 +79,10 @@ public class CommentRepository : ICommentRepository
 
         return false;
     }
+
+    public async Task<int> GetCommentsAmountOnPost(int postId)
+    {
+        return await _context.Comments
+            .CountAsync(c => c.PostId == postId);
+    }
 }

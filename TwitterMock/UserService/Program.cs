@@ -9,7 +9,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.ConfigureDi();
+//Here i pass a userId
+builder.Services.ConfigureDi(1);
 
 var app = builder.Build();
 

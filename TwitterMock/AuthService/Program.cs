@@ -22,21 +22,6 @@ builder.Services.AddScoped<IAuthService, AuthService.Core.Services.AuthService>(
 builder.Services.AddDbContext<DatabaseContext>(options =>
     options.UseInMemoryDatabase("AuthDb"));
 
-
-// builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
-// {
-//     const string secretKeyString  = "SuperSecret123!SuperSecret123!1234";
-//
-//     options.TokenValidationParameters = new TokenValidationParameters
-//     {
-//         ValidateIssuer = false,
-//         ValidateAudience = false,
-//         ValidateLifetime = false,
-//         ValidateIssuerSigningKey = true,
-//         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKeyString))
-//     };
-// });
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

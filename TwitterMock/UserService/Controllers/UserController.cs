@@ -11,8 +11,7 @@ namespace UserService.Controllers;
 public class UserController : ControllerBase
 {
     private readonly IUserService _userService;
-    private readonly HttpClient _client = new HttpClient();
-
+    
     public UserController(IUserService userService)
     {
         _userService = userService;
@@ -35,15 +34,10 @@ public class UserController : ControllerBase
 
     [HttpGet]
     [Route("GetUsers")]
-    public async Task<IActionResult> GetUsers([FromQuery] PaginatedDTO paginatedDto, [FromHeader] string token)
+    public async Task<IActionResult> GetUsers([FromQuery] PaginatedDTO paginatedDto)
     {
         try
         {
-            var url = "http://AuthService/api/Auth/ValidateToken";
-            _client.DefaultRequestHeaders.Add("token", token);
-            var result = await _client.GetAsync(url);
-
-            if (!result.IsSuccessStatusCode) return Unauthorized(result.RequestMessage);
             return Ok(await _userService.GetUsers(paginatedDto));
         }
         catch (Exception e)
@@ -54,20 +48,11 @@ public class UserController : ControllerBase
 
     [HttpGet]
     [Route("{userId}")]
-    public async Task<IActionResult> GetUserById([FromRoute] int userId, [FromHeader] string token)
+    public async Task<IActionResult> GetUserById([FromRoute] int userId)
     {
         try
         {
-            var url = "http://AuthService/api/Auth/ValidateToken";
-            _client.DefaultRequestHeaders.Add("token", token);
-            var result = await _client.GetAsync(url);
-
-            if (result.IsSuccessStatusCode)
-            {
-                return Ok(await _userService.GetUserById(userId));
-            }
-
-            return Unauthorized();
+            return Ok(await _userService.GetUserById(userId));
         }
         catch (Exception e)
         {
@@ -77,16 +62,10 @@ public class UserController : ControllerBase
 
     [HttpPut]
     [Route("{userId}")]
-    public async Task<IActionResult> UpdateUser([FromRoute] int userId, [FromBody] UpdateUserDTO dto,
-        [FromHeader] string token)
+    public async Task<IActionResult> UpdateUser([FromRoute] int userId, [FromBody] UpdateUserDTO dto)
     {
         try
         {
-            var url = "http://AuthService/api/Auth/ValidateToken";
-            _client.DefaultRequestHeaders.Add("token", token);
-            var result = await _client.GetAsync(url);
-
-            if (!result.IsSuccessStatusCode) return Unauthorized();
             await _userService.UpdateUser(userId, dto);
             return Ok();
         }
@@ -99,15 +78,10 @@ public class UserController : ControllerBase
 
     [HttpDelete]
     [Route("{userId}")]
-    public async Task<IActionResult> DeleteUser([FromRoute] int userId, [FromHeader] string token)
+    public async Task<IActionResult> DeleteUser([FromRoute] int userId)
     {
         try
         {
-            var url = "http://AuthService/api/Auth/ValidateToken";
-            _client.DefaultRequestHeaders.Add("token", token);
-            var result = await _client.GetAsync(url);
-
-            if (!result.IsSuccessStatusCode) return Unauthorized();
             await _userService.DeleteUser(userId);
             return Ok();
         }

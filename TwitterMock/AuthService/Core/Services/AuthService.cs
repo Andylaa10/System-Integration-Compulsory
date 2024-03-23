@@ -15,7 +15,9 @@ namespace AuthService.Core.Services;
 public class AuthService : IAuthService
 {
     private readonly IAuthRepository _authRepository;
-    private const string SecurityKey = "mMdAhocQbIAa1/4iD8W5BiDCD9Lxg9ULp4qROgJVN8oRZommyAsnRalnNlzWGbKGJItr/kh2jVd2d9brhSBAJttV7NE47dvyX6n36cFKlnz3k9AodqqVgH/S52oQMYamtI+HsQqBmsvZMqOE+oGlEIzJG9tmDZ1JE/qJHq+bXo3RCEuBf26dGuIG4DWpjh+G4xTVC7ZoByCmq5zTUUyTlFZCQ2483iJe1Thkem9mlzt3cOy8O5SYJBafIb0xdIBYEoHl56Z805fO/W4eAw+M5stSCUdJTBUtWbCiId9zSapmilb20sCg4l5xYTsaJImTfHlo0t9kF1o/RXwr1cw3zCPoyt9tjWhZ83LMsi1ydBg=";
+
+    private const string SecurityKey =
+        "mMdAhocQbIAa1/4iD8W5BiDCD9Lxg9ULp4qROgJVN8oRZommyAsnRalnNlzWGbKGJItr/kh2jVd2d9brhSBAJttV7NE47dvyX6n36cFKlnz3k9AodqqVgH/S52oQMYamtI+HsQqBmsvZMqOE+oGlEIzJG9tmDZ1JE/qJHq+bXo3RCEuBf26dGuIG4DWpjh+G4xTVC7ZoByCmq5zTUUyTlFZCQ2483iJe1Thkem9mlzt3cOy8O5SYJBafIb0xdIBYEoHl56Z805fO/W4eAw+M5stSCUdJTBUtWbCiId9zSapmilb20sCg4l5xYTsaJImTfHlo0t9kF1o/RXwr1cw3zCPoyt9tjWhZ83LMsi1ydBg=";
 
 
     public AuthService(IAuthRepository authRepository)
@@ -60,46 +62,61 @@ public class AuthService : IAuthService
         throw new Exception("Invalid login");
     }
 
-    public async Task<bool> ValidateToken(string token)
+    public async Task<AuthenticateResult> ValidateToken(string token)
     {
-        if (token.IsNullOrEmpty())return await Task.Run(()=>false);;
-        
-        
-        var validationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = false,
-            ValidateAudience = false,
-            ValidateLifetime = false,
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SecurityKey))
-        };
+        if (token.IsNullOrEmpty()) return await Task.Run(() => AuthenticateResult.Fail("Invalid token"));
 
         try
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            tokenHandler.ValidateToken(token, validationParameters, out _);
-            return await Task.Run(()=>true);
+            var key = Encoding.ASCII.GetBytes(SecurityKey);
+            var principal = tokenHandler.ValidateToken(token, new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(key),
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ValidateLifetime = false
+            }, out var validatedToken);
+
+
+            if (principal == null)
+            {
+                return AuthenticateResult.Fail("Invalid token");
+            }
+
+            var claims = new List<Claim>();
+            foreach (var claim in principal.Claims)
+            {
+                claims.Add(new Claim(claim.Type, claim.Value));
+            }
+
+            var claimsIdentity = new ClaimsIdentity(claims, "dev");
+            var claimPrincipal = new ClaimsPrincipal(claimsIdentity);
+            var ticket = new AuthenticationTicket(claimPrincipal, "dev");
+            return AuthenticateResult.Success(ticket);
         }
         catch
         {
-            return await Task.Run(()=>false);
+            return await Task.Run(() => AuthenticateResult.Fail("Invalid token"));
         }
     }
+
 
     private AuthenticationToken GenerateToken(Auth auth)
     {
         var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SecurityKey));
         var signingCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-    
+
         var claims = new List<Claim>
         {
-            new("Id", auth.Id.ToString()),
+            new Claim("Id", auth.Id.ToString()),
+            new Claim("Email", auth.Email),
         };
-
+        
         var tokenOptions = new JwtSecurityToken(
-            claims: claims,
-            expires: DateTime.UtcNow.AddHours(1),
-            signingCredentials: signingCredentials
+            signingCredentials: signingCredentials,
+            claims: claims
         );
 
         var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);

@@ -32,7 +32,7 @@
         }
       ],
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
+        "AuthenticationProviderKey": "dev",
         "AllowedScopes": [
         ]
       }
@@ -53,7 +53,7 @@
         }
       ],
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
+        "AuthenticationProviderKey": "dev",
         "AllowedScopes": [
         ]
       }
@@ -99,10 +99,7 @@
           "Host": "AuthService",
           "Port": 80
         }
-      ],
-      "AddHeadersToRequest": {
-        "token": "{token}"
-      }
+      ]
     },
     {
       "//PostService": "PostService",
@@ -119,7 +116,7 @@
         }
       ],
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
+        "AuthenticationProviderKey": "dev",
         "AllowedScopes": [
         ]
       }
@@ -140,7 +137,7 @@
         }
       ],
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
+        "AuthenticationProviderKey": "dev",
         "AllowedScopes": [
         ]
       }
@@ -159,7 +156,7 @@
         }
       ],
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
+        "AuthenticationProviderKey": "dev",
         "AllowedScopes": [
         ]
       }
@@ -178,8 +175,10 @@
           "Port": 80
         }
       ],
-      "AddHeadersToRequest": {
-        "token": "{token}"
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "dev",
+        "AllowedScopes": [
+        ]
       }
     },
     {
@@ -197,7 +196,7 @@
         }
       ],
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
+        "AuthenticationProviderKey": "dev",
         "AllowedScopes": [
         ]
       }
@@ -216,7 +215,7 @@
         }
       ],
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
+        "AuthenticationProviderKey": "dev",
         "AllowedScopes": [
         ]
       }
@@ -234,8 +233,10 @@
           "Port": 80
         }
       ],
-      "AddHeadersToRequest": {
-        "token": "{token}"
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "dev",
+        "AllowedScopes": [
+        ]
       }
     },
     {
@@ -254,7 +255,7 @@
         }
       ],
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
+        "AuthenticationProviderKey": "dev",
         "AllowedScopes": [
         ]
       }
@@ -273,7 +274,7 @@
         }
       ],
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
+        "AuthenticationProviderKey": "dev",
         "AllowedScopes": [
         ]
       }

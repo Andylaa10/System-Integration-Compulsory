@@ -9,8 +9,6 @@ namespace TimeLineService.Controllers;
 public class TimeLineController : ControllerBase
 {
     private readonly ITimeLineService _timeLineService;
-    private readonly HttpClient _client = new HttpClient();
-
 
     public TimeLineController(ITimeLineService timeLineService)
     {
@@ -18,16 +16,10 @@ public class TimeLineController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetTimeLines([FromHeader] string token)
+    public async Task<IActionResult> GetTimeLines()
     {
         try
         {
-            var url = "http://AuthService/api/Auth/ValidateToken";
-            _client.DefaultRequestHeaders.Add("token", token);
-            var result = await _client.GetAsync(url);
-
-            if (!result.IsSuccessStatusCode) return Unauthorized(result.RequestMessage);
-            
             return Ok(await _timeLineService.GetTimeLines());
         }
         catch (Exception e)
@@ -41,8 +33,6 @@ public class TimeLineController : ControllerBase
     {
         try
         {
-            // We are not checking the Token, because we already check that in the PostController where we make this API call
-            
             await _timeLineService.AddToTimeLine(dto);
             return StatusCode(201, "Post successfully added to the timeline");
         }
@@ -54,16 +44,10 @@ public class TimeLineController : ControllerBase
 
     [HttpDelete]
     [Route("{postId}")]
-    public async Task<IActionResult> DeletePostFromTimeLine([FromRoute] int postId, [FromHeader] string token)
+    public async Task<IActionResult> DeletePostFromTimeLine([FromRoute] int postId)
     {
         try
         {
-            var url = "http://AuthService/api/Auth/ValidateToken";
-            _client.DefaultRequestHeaders.Add("token", token);
-            var result = await _client.GetAsync(url);
-
-            if (!result.IsSuccessStatusCode) return Unauthorized(result.RequestMessage);
-            
             await _timeLineService.DeleteFromTimeLine(postId);
             return Ok();
         }

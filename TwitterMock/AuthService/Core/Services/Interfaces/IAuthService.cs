@@ -7,5 +7,5 @@ public interface IAuthService
 {
     public Task Register(CreateAuthDto auth);
     public Task<AuthenticationToken> Login(LoginDto user);
-    public Task<bool> ValidateToken(string token);
+    public Task<AuthenticateResult> ValidateToken(string token);
 }

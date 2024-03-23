@@ -1,3 +1,4 @@
+using System.Text.Json;
 using CommentService.Core.Entities.Dtos;
 using CommentService.Core.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +10,7 @@ namespace CommentService.Controllers;
 public class CommentController : ControllerBase
 {
     private readonly ICommentService _commentService;
+    private readonly HttpClient _client = new HttpClient();
 
     public CommentController(ICommentService commentService)
     {
@@ -34,7 +36,15 @@ public class CommentController : ControllerBase
     {
         try
         {
-            await _commentService.AddComment(dto);
+            var request = await _client.GetAsync($"http://PostService/api/Post/{dto.PostId}");
+
+            if (!request.IsSuccessStatusCode) throw new KeyNotFoundException($"No post with the id of {dto.PostId}");
+            var result = await request.Content.ReadAsStringAsync();
+            JsonDocument doc = JsonDocument.Parse(result);
+            JsonElement root = doc.RootElement;
+            int userId = root.GetProperty("userId").GetInt32();
+            
+            await _commentService.AddComment(dto, userId);
             return StatusCode(201, "Comment successfully added");
         }
         catch (Exception e)

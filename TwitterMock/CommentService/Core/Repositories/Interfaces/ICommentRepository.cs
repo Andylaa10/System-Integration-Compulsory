@@ -49,4 +49,11 @@ public interface ICommentRepository
     /// <param name="commentId"></param>
     /// <returns></returns>
     public Task<bool> DoesCommentExists(int commentId);
+
+    /// <summary>
+    /// Gets the total comments count on post
+    /// </summary>
+    /// <param name="postId"></param>
+    /// <returns></returns>
+    public Task<int> GetCommentsAmountOnPost(int postId);
 }

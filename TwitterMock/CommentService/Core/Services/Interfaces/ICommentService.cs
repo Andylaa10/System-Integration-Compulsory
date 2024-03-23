@@ -18,7 +18,7 @@ public interface ICommentService
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    public Task AddComment(AddCommentDto comment);
+    public Task AddComment(AddCommentDto comment, int userIdOfPost);
 
     /// <summary>
     /// Updates a comment on a post

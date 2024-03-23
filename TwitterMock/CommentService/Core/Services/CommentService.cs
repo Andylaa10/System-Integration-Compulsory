@@ -4,6 +4,8 @@ using CommentService.Core.Entities.Dtos;
 using CommentService.Core.Entities.Helper;
 using CommentService.Core.Repositories.Interfaces;
 using CommentService.Core.Services.Interfaces;
+using Messaging;
+using Messaging.SharedMessages;
 
 namespace CommentService.Core.Services;
 
@@ -11,11 +13,13 @@ public class CommentService : ICommentService
 {
     private readonly ICommentRepository _commentRepository;
     private readonly IMapper _mapper;
+    private readonly MessageClient _messageClient;
 
-    public CommentService(ICommentRepository commentRepository, IMapper mapper)
+    public CommentService(ICommentRepository commentRepository, IMapper mapper, MessageClient messageClient)
     {
         _commentRepository = commentRepository ?? throw new ArgumentException("Comment repository cannot be null");
         _mapper = mapper ?? throw new ArgumentException("Automapper cannot be null");
+        _messageClient = messageClient ?? throw new ArgumentException("MessageClient cannot be null");
     }
 
     public async Task<PaginatedResult<Comment>> GetComments(int postId, PaginatedDto dto)
@@ -25,9 +29,13 @@ public class CommentService : ICommentService
         return await _commentRepository.GetComments(postId, dto.PageNumber, dto.PageSize);
     }
 
-    public async Task AddComment(AddCommentDto comment)
+    public async Task AddComment(AddCommentDto comment, int userIdOfPost)
     {
         await _commentRepository.AddComment(_mapper.Map<Comment>(comment));
+        
+        //Notify the user with the post, and the amount of comments on the post  
+        var commentsCount = await _commentRepository.GetCommentsAmountOnPost(comment.PostId);
+        await _messageClient.Send( new NotifyUserAboutComments($"The total comment count is now {commentsCount}", commentsCount), $"CommentsOnPostCreatedBy{comment.UserId}");
     }
 
     public async Task UpdateComment(int commentId, UpdateCommentDto comment)

@@ -13,8 +13,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5221
+          "Host": "UserService",
+          "Port": 80
         }
       ]
     },
@@ -27,12 +27,14 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5221
+          "Host": "UserService",
+          "Port": 80
         }
       ],
-      "AddHeadersToRequest": {
-        "token": "{token}"
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "dev",
+        "AllowedScopes": [
+        ]
       }
     },
     {
@@ -46,12 +48,14 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5221
+          "Host": "UserService",
+          "Port": 80
         }
       ],
-      "AddHeadersToRequest": {
-        "token": "{token}"
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "dev",
+        "AllowedScopes": [
+        ]
       }
     },
     {
@@ -64,8 +68,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5262
+          "Host": "AuthService",
+          "Port": 80
         }
       ]
     },
@@ -78,8 +82,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5262
+          "Host": "AuthService",
+          "Port": 80
         }
       ]
     },
@@ -92,13 +96,10 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5262
+          "Host": "AuthService",
+          "Port": 80
         }
-      ],
-      "AddHeadersToRequest": {
-        "token": "{token}"
-      }
+      ]
     },
     {
       "//PostService": "PostService",
@@ -110,12 +111,14 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5016
+          "Host": "PostService",
+          "Port": 80
         }
       ],
-      "AddHeadersToRequest": {
-        "token": "{token}"
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "dev",
+        "AllowedScopes": [
+        ]
       }
     },
     {
@@ -129,12 +132,14 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5016
+          "Host": "PostService",
+          "Port": 80
         }
       ],
-      "AddHeadersToRequest": {
-        "token": "{token}"
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "dev",
+        "AllowedScopes": [
+        ]
       }
     },
     {
@@ -146,12 +151,14 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5016
+          "Host": "PostService",
+          "Port": 80
         }
       ],
-      "AddHeadersToRequest": {
-        "token": "{token}"
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "dev",
+        "AllowedScopes": [
+        ]
       }
     },
     {
@@ -164,12 +171,14 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5132
+          "Host": "CommentService",
+          "Port": 80
         }
       ],
-      "AddHeadersToRequest": {
-        "token": "{token}"
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "dev",
+        "AllowedScopes": [
+        ]
       }
     },
     {
@@ -182,12 +191,14 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5132
+          "Host": "CommentService",
+          "Port": 80
         }
       ],
-      "AddHeadersToRequest": {
-        "token": "{token}"
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "dev",
+        "AllowedScopes": [
+        ]
       }
     },
     {
@@ -199,12 +210,33 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5132
+          "Host": "CommentService",
+          "Port": 80
         }
       ],
-      "AddHeadersToRequest": {
-        "token": "{token}"
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "dev",
+        "AllowedScopes": [
+        ]
+      }
+    },
+    {
+      "UpstreamPathTemplate": "/api/Comment/DeleteCommentsOnPost/{postId}",
+      "UpstreamHttpMethod": [
+        "DELETE"
+      ],
+      "DownstreamPathTemplate": "/api/Comment/DeleteCommentsOnPost/{postId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "CommentService",
+          "Port": 80
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "dev",
+        "AllowedScopes": [
+        ]
       }
     },
     {
@@ -218,10 +250,15 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5092
+          "Host": "TimeLineService",
+          "Port": 80
         }
-      ]
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "dev",
+        "AllowedScopes": [
+        ]
+      }
     },
     {
       "UpstreamPathTemplate": "/api/TimeLine/{id}",
@@ -232,12 +269,14 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5092
+          "Host": "TimeLineService",
+          "Port": 80
         }
       ],
-      "AddHeadersToRequest": {
-        "token": "{token}"
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "dev",
+        "AllowedScopes": [
+        ]
       }
     }
   ]

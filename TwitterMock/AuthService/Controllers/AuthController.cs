@@ -28,7 +28,7 @@ public class AuthController : ControllerBase
         {
             await _authService.Register(dto);
 
-            var url = "http://localhost:5206/api/User/AddUser";
+            var url = "http://UserService/api/User/AddUser";
             var payload = JsonSerializer.Serialize(dto);
             var content = new StringContent(payload, Encoding.UTF8, "application/json");
             var result = await _client.PostAsync(url, content);
@@ -62,21 +62,28 @@ public class AuthController : ControllerBase
 
     [HttpGet]
     [Route("ValidateToken")]
-    public async Task<IActionResult> ValidateToken([FromHeader] string token)
+    public async Task<bool> ValidateToken()
     {
         try
         {
-            var result = await _authService.ValidateToken(token);
-            if (result)
-            {
-                return Ok(result);
-            }
+            // checking for a valid token in the Authorization header
+            var re = Request;
 
-            return Unauthorized();
+            if (!re.Headers.ContainsKey("Authorization"))
+                return await Task.Run(() => false);
+
+            if (!re.Headers["Authorization"].ToString().StartsWith("Bearer "))
+                return await Task.Run(() => false);
+
+            
+            // decode the token & check if it's valid
+            var token = re.Headers["Authorization"].ToString().Replace("Bearer ", "");
+            var result = await _authService.ValidateToken(token);
+            return result.Succeeded;
         }
         catch (Exception e)
         {
-            return BadRequest(e.Message);
+            return await Task.Run(() => false);
         }
     }
 }

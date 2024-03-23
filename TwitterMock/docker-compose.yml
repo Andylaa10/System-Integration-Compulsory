@@ -8,85 +8,53 @@ services:
       dockerfile: ./APIGateway/Dockerfile
     ports:
       - "5206:80"
-    networks:
-      - local_network
   
   AuthService:
     image: authservice
     build:
       context: .
       dockerfile: ./AuthService/Dockerfile
-    networks:
-      - local_network
     depends_on:
       - APIGateway
+    ports:
+      - "9094:80"
   
   UserService:
     image: userservice
     build:
       context: .
       dockerfile: ./UserService/Dockerfile
-    networks:
-      - local_network
     depends_on:
       - AuthService
-  
+    ports:
+      - "9093:80"
+    
   CommentService:
     image: commentservice
     build:
       context: .
       dockerfile: ./CommentService/Dockerfile
-    networks:
-      - local_network
     depends_on:
       - AuthService
-      - UserService
+    ports:
+      - "9092:80"
   
-  
-  LikeService:
-    image: likeservice
-    build:
-      context: .
-      dockerfile: ./LikeService/Dockerfile
-    networks:
-      - local_network
-    depends_on:
-      - AuthService
-      - UserService
-      
   TimeLineService:
     image: timelineservice
     build:
       context: .
       dockerfile: ./TimeLineService/Dockerfile
-    networks:
-      - local_network
     depends_on:
       - AuthService
-      - UserService
+    ports:
+      - "9091:80"
   
   PostService:
     image: postservice
     build:
       context: .
       dockerfile: ./PostService/Dockerfile
-    networks:
-      - local_network
     depends_on:
       - AuthService
-      - UserService
-  
-  FriendService:
-    image: friendservice
-    build:
-      context: .
-      dockerfile: ./FriendService/Dockerfile
-    networks:
-      - local_network
-    depends_on:
-      - AuthService
-      - UserService
-
-networks:
-  local_network:
-    driver: bridge  
+    ports:
+      - "9090:80"

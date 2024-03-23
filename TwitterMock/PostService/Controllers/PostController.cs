@@ -14,23 +14,16 @@ public class PostController : ControllerBase
     private readonly IPostService _postService;
     private readonly HttpClient _client = new HttpClient();
 
-
-    //TODO Check if user exists
     public PostController(IPostService postService)
     {
         _postService = postService;
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetPosts([FromHeader] string token)
+    public async Task<IActionResult> GetPosts()
     {
         try
         {
-            var url = "http://localhost:5206/api/Auth/ValidateToken";
-            _client.DefaultRequestHeaders.Add("token", token);
-            var result = await _client.GetAsync(url);
-
-            if (!result.IsSuccessStatusCode) return Unauthorized(result.RequestMessage);
             return Ok(await _postService.GetPosts());
         }
         catch (Exception e)
@@ -41,15 +34,10 @@ public class PostController : ControllerBase
 
     [HttpGet]
     [Route("{postId}")]
-    public async Task<IActionResult> GetPostById([FromRoute] int postId, [FromHeader] string token)
+    public async Task<IActionResult> GetPostById([FromRoute] int postId)
     {
         try
         {
-            var url = "http://localhost:5206/api/Auth/ValidateToken";
-            _client.DefaultRequestHeaders.Add("token", token);
-            var result = await _client.GetAsync(url);
-
-            if (!result.IsSuccessStatusCode) return Unauthorized(result.RequestMessage);
             return Ok(await _postService.GetPostById(postId));
         }
         catch (Exception e)
@@ -59,20 +47,15 @@ public class PostController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddPost([FromBody] AddPostDTO dto, [FromHeader] string token)
+    public async Task<IActionResult> AddPost([FromBody] AddPostDTO dto)
     {
         try
         {
-            var urlToken = "http://localhost:5206/api/Auth/ValidateToken";
-            _client.DefaultRequestHeaders.Add("token", token);
-            var resultToken = await _client.GetAsync(urlToken);
-
-            if (!resultToken.IsSuccessStatusCode) return Unauthorized(resultToken.RequestMessage);
             var post = await _postService.AddPost(dto);
 
             dto.PostId = post.Id;
             
-            var url = "http://localhost:5206/api/TimeLine";
+            var url = "http://TimeLineService/api/TimeLine";
             var payload = JsonSerializer.Serialize(dto);
             var content = new StringContent(payload, Encoding.UTF8, "application/json");
             var result = await _client.PostAsync(url, content);
@@ -92,16 +75,10 @@ public class PostController : ControllerBase
 
     [HttpPut]
     [Route("{postId}")]
-    public async Task<IActionResult> UpdatePost([FromRoute] int postId, [FromBody] UpdatePostDTO dto, [FromHeader] string token)
+    public async Task<IActionResult> UpdatePost([FromRoute] int postId, [FromBody] UpdatePostDTO dto)
     {
         try
         {
-            var url = "http://localhost:5206/api/Auth/ValidateToken";
-            _client.DefaultRequestHeaders.Add("token", token);
-            var result = await _client.GetAsync(url);
-
-            if (!result.IsSuccessStatusCode) return Unauthorized(result.RequestMessage);
-            
             await _postService.UpdatePost(postId, dto);
             return Ok();
         }
@@ -113,17 +90,17 @@ public class PostController : ControllerBase
 
     [HttpDelete]
     [Route("{postId}")]
-    public async Task<IActionResult> DeletePost([FromRoute] int postId, [FromHeader] string token)
+    public async Task<IActionResult> DeletePost([FromRoute] int postId)
     {
         try
         {
-            var url = "http://localhost:5206/api/Auth/ValidateToken";
-            _client.DefaultRequestHeaders.Add("token", token);
-            var result = await _client.GetAsync(url);
-
-            if (!result.IsSuccessStatusCode) return Unauthorized(result.RequestMessage);
-            
             await _postService.DeletePost(postId);
+
+            var urlComment = $"http://CommentService/api/Comment/DeleteCommentsOnPost/{postId}"; 
+            var result = await _client.DeleteAsync(urlComment);
+
+            if (!result.IsSuccessStatusCode) return BadRequest(result.RequestMessage);
+            
             return Ok();
         }
         catch (Exception e)

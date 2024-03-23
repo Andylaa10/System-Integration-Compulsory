@@ -9,7 +9,6 @@ namespace CommentService.Controllers;
 public class CommentController : ControllerBase
 {
     private readonly ICommentService _commentService;
-    private readonly HttpClient _client = new HttpClient();
 
     public CommentController(ICommentService commentService)
     {
@@ -18,15 +17,10 @@ public class CommentController : ControllerBase
 
     [HttpGet]
     [Route("{postId}")]
-    public async Task<IActionResult> GetComments([FromRoute] int postId, [FromQuery] PaginatedDto dto, [FromHeader] string token)
+    public async Task<IActionResult> GetComments([FromRoute] int postId, [FromQuery] PaginatedDto dto)
     {
         try
         {
-            var url = "http://localhost:5206/api/Auth/ValidateToken";
-            _client.DefaultRequestHeaders.Add("token", token);
-            var result = await _client.GetAsync(url);
-
-            if (!result.IsSuccessStatusCode) return Unauthorized(result.RequestMessage);
             return Ok(await _commentService.GetComments(postId, dto));
         }
         catch (Exception e)
@@ -36,16 +30,10 @@ public class CommentController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddComment([FromBody] AddCommentDto dto, [FromHeader] string token)
+    public async Task<IActionResult> AddComment([FromBody] AddCommentDto dto)
     {
         try
         {
-            var url = "http://localhost:5206/api/Auth/ValidateToken";
-            _client.DefaultRequestHeaders.Add("token", token);
-            var result = await _client.GetAsync(url);
-
-            if (!result.IsSuccessStatusCode) return Unauthorized(result.RequestMessage);
-            
             await _commentService.AddComment(dto);
             return StatusCode(201, "Comment successfully added");
         }
@@ -57,16 +45,10 @@ public class CommentController : ControllerBase
 
     [HttpPut]
     [Route("{commentId}")]
-    public async Task<IActionResult> UpdateComment([FromRoute] int commentId, [FromBody] UpdateCommentDto dto, [FromHeader] string token)
+    public async Task<IActionResult> UpdateComment([FromRoute] int commentId, [FromBody] UpdateCommentDto dto)
     {
         try
         {
-            var url = "http://localhost:5206/api/Auth/ValidateToken";
-            _client.DefaultRequestHeaders.Add("token", token);
-            var result = await _client.GetAsync(url);
-
-            if (!result.IsSuccessStatusCode) return Unauthorized(result.RequestMessage);
-            
             await _commentService.UpdateComment(commentId, dto);
             return Ok();
         }
@@ -78,17 +60,26 @@ public class CommentController : ControllerBase
 
     [HttpDelete]
     [Route("{commentId}")]
-    public async Task<IActionResult> DeleteComment([FromRoute] int commentId, [FromHeader] string token)
+    public async Task<IActionResult> DeleteComment([FromRoute] int commentId)
     {
         try
         {
-            var url = "http://localhost:5206/api/Auth/ValidateToken";
-            _client.DefaultRequestHeaders.Add("token", token);
-            var result = await _client.GetAsync(url);
-
-            if (!result.IsSuccessStatusCode) return Unauthorized(result.RequestMessage);
-            
             await _commentService.DeleteComment(commentId);
+            return Ok();
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
+    [HttpDelete]
+    [Route("DeleteCommentsOnPost/{postId}")]
+    public async Task<IActionResult> DeleteCommentsOnPost([FromRoute] int postId)
+    {
+        try
+        {
+            await _commentService.DeleteCommentsOnPost(postId);
             return Ok();
         }
         catch (Exception e)

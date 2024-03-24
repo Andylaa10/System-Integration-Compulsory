@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Messaging;
+using Messaging.SharedMessages;
 using PostService.Core.Entities;
 using PostService.Core.Repositories.Interfaces;
 using PostService.Core.Services.DTOs;
@@ -10,11 +12,13 @@ namespace PostService.Core.Services
     {
         private readonly IPostRepository _postRepository;
         private readonly IMapper _mapper;
+        private readonly MessageClient _messageClient;
 
-        public PostService(IPostRepository postRepository, IMapper mapper)
+        public PostService(IPostRepository postRepository, IMapper mapper, MessageClient messageClient)
         {
             _postRepository = postRepository ?? throw new ArgumentException("Post repository cannot be null");
             _mapper = mapper ?? throw new ArgumentException("Automapper cannot be null");
+            _messageClient = messageClient ?? throw new ArgumentException("MessageClient cannot be null");
         }
 
         public async Task<IEnumerable<Post>> GetPosts()
@@ -59,6 +63,8 @@ namespace PostService.Core.Services
                 throw new KeyNotFoundException($"No such post with id of {postId}");
             }
             await _postRepository.DeletePost(postId);
+            await _messageClient.Send(new DeleteCommentOnPostIfPostIsDeleted("Deleting comments on post", postId), "DeleteCommentsOnPostIfPostIsDeleted");
+
         }
     }
 }

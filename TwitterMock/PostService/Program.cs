@@ -1,4 +1,6 @@
 using AutoMapper;
+using EasyNetQ;
+using Messaging;
 using Microsoft.EntityFrameworkCore;
 using PostService.Core.Entities;
 using PostService.Core.Helper;
@@ -22,6 +24,7 @@ var mapperConfig = new MapperConfiguration(config =>
 }).CreateMapper();
 
 builder.Services.AddSingleton(mapperConfig);
+builder.Services.AddSingleton(new MessageClient(RabbitHutch.CreateBus("host=rabbitmq;port=5672;virtualHost=/;username=guest;password=guest")));
 
 builder.Services.AddDbContext<DatabaseContext>(options =>
     options.UseInMemoryDatabase("PostDb"));

@@ -95,12 +95,6 @@ public class PostController : ControllerBase
         try
         {
             await _postService.DeletePost(postId);
-
-            var urlComment = $"http://CommentService/api/Comment/DeleteCommentsOnPost/{postId}"; 
-            var result = await _client.DeleteAsync(urlComment);
-
-            if (!result.IsSuccessStatusCode) return BadRequest(result.RequestMessage);
-            
             return Ok();
         }
         catch (Exception e)

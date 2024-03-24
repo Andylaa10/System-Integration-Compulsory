@@ -1,4 +1,5 @@
 ﻿using CommentService.Core.Helper;
+using CommentService.Core.Helper.MessageHandlers;
 using CommentService.Core.Repositories;
 using CommentService.Core.Repositories.Interfaces;
 using CommentService.Core.Services.Interfaces;
@@ -18,5 +19,6 @@ public static class DependencyInjectionConfig
         services.AddScoped<ICommentRepository, CommentRepository>();
         services.AddScoped<ICommentService, Core.Services.CommentService>();
         services.AddSingleton(AutoMapperConfig.ConfigureAutoMapper());
+        services.AddHostedService<DeleteCommentOnPostIfPostIsDeletedHandler>();
     }
 }

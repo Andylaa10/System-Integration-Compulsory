@@ -51,21 +51,7 @@ public class PostController : ControllerBase
     {
         try
         {
-            var post = await _postService.AddPost(dto);
-
-            dto.PostId = post.Id;
-            
-            var url = "http://TimeLineService/api/TimeLine";
-            var payload = JsonSerializer.Serialize(dto);
-            var content = new StringContent(payload, Encoding.UTF8, "application/json");
-            var result = await _client.PostAsync(url, content);
-
-            if (result.IsSuccessStatusCode)
-            {
-                return StatusCode(201, "Post successfully added");
-            }
-
-            return BadRequest(result.RequestMessage);
+            return StatusCode(201, await _postService.AddPost(dto));
         }
         catch (Exception e)
         {

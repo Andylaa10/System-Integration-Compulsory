@@ -33,11 +33,13 @@ namespace PostService.Core.Services
             return await _postRepository.GetPostById(postId);
         }
 
-        public async Task<Post> AddPost(AddPostDTO post)
+        public async Task<Post> AddPost(AddPostDTO dto)
         {
-            if (post.UserId <= 0) throw new ArgumentException("User ID cannot be 0 or null");
+            if (dto.UserId <= 0) throw new ArgumentException("User ID cannot be 0 or null");
             
-            return await _postRepository.AddPost(_mapper.Map<Post>(post));
+            var post = await _postRepository.AddPost(_mapper.Map<Post>(dto));
+            await _messageClient.Send(new AddPostToTimelineIfPostIsCreated("Adding post to timeline", post.Id), "AddPostToTimelineIfPostIsCreated");
+            return post;
         }
 
         public async Task UpdatePost(int postId, UpdatePostDTO post)

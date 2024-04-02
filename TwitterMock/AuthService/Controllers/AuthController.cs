@@ -12,8 +12,6 @@ namespace AuthService.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly IAuthService _authService;
-    private readonly HttpClient _client = new HttpClient();
-
 
     public AuthController(IAuthService authService)
     {
@@ -27,18 +25,7 @@ public class AuthController : ControllerBase
         try
         {
             await _authService.Register(dto);
-
-            var url = "http://UserService/api/User/AddUser";
-            var payload = JsonSerializer.Serialize(dto);
-            var content = new StringContent(payload, Encoding.UTF8, "application/json");
-            var result = await _client.PostAsync(url, content);
-
-            if (result.IsSuccessStatusCode)
-            {
-                return StatusCode(201, "Successfully registered");
-            }
-
-            return BadRequest(result.RequestMessage);
+            return StatusCode(201, "Successfully registered");
         }
         catch (Exception e)
         {

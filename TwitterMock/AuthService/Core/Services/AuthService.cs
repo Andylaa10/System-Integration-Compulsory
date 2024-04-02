@@ -7,6 +7,8 @@ using AuthService.Core.Entities;
 using AuthService.Core.Repositories.Interfaces;
 using AuthService.Core.Services.Dtos;
 using AuthService.Core.Services.Interfaces;
+using Messaging;
+using Messaging.SharedMessages;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.IdentityModel.Tokens;
 
@@ -15,14 +17,17 @@ namespace AuthService.Core.Services;
 public class AuthService : IAuthService
 {
     private readonly IAuthRepository _authRepository;
+    private readonly MessageClient _messageClient;
+
 
     private const string SecurityKey =
         "mMdAhocQbIAa1/4iD8W5BiDCD9Lxg9ULp4qROgJVN8oRZommyAsnRalnNlzWGbKGJItr/kh2jVd2d9brhSBAJttV7NE47dvyX6n36cFKlnz3k9AodqqVgH/S52oQMYamtI+HsQqBmsvZMqOE+oGlEIzJG9tmDZ1JE/qJHq+bXo3RCEuBf26dGuIG4DWpjh+G4xTVC7ZoByCmq5zTUUyTlFZCQ2483iJe1Thkem9mlzt3cOy8O5SYJBafIb0xdIBYEoHl56Z805fO/W4eAw+M5stSCUdJTBUtWbCiId9zSapmilb20sCg4l5xYTsaJImTfHlo0t9kF1o/RXwr1cw3zCPoyt9tjWhZ83LMsi1ydBg=";
 
 
-    public AuthService(IAuthRepository authRepository)
+    public AuthService(IAuthRepository authRepository, MessageClient messageClient)
     {
         _authRepository = authRepository;
+        _messageClient = messageClient;
     }
 
     public async Task Register(CreateAuthDto dto)
@@ -47,6 +52,9 @@ public class AuthService : IAuthService
         };
 
         await _authRepository.Register(newAuth);
+
+        await _messageClient.Send(
+            new CreateUser("Creating user", dto.Username, dto.Email, newAuth.PasswordHash, dto.FirstName, dto.LastName), "CreateUser");
     }
 
     public async Task<AuthenticationToken> Login(LoginDto auth)
@@ -116,7 +124,8 @@ public class AuthService : IAuthService
         
         var tokenOptions = new JwtSecurityToken(
             signingCredentials: signingCredentials,
-            claims: claims
+            claims: claims,
+            expires: DateTime.Now.AddHours(7)
         );
 
         var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);

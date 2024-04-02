@@ -12,8 +12,6 @@ namespace PostService.Controllers;
 public class PostController : ControllerBase
 {
     private readonly IPostService _postService;
-    private readonly HttpClient _client = new HttpClient();
-
     public PostController(IPostService postService)
     {
         _postService = postService;

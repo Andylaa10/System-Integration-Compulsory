@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TimeLineService.Core.Helper;
+using TimeLineService.Core.Helper.MessageHandlers;
 using TimeLineService.Core.Repositories;
 using TimeLineService.Core.Repositories.Interfaces;
 using TimeLineService.Core.Services.Interfaces;
@@ -14,7 +15,7 @@ public static class DependencyInjectionConfig
             options.UseInMemoryDatabase("TimeLineDb"));
         services.AddScoped<ITimeLineRepository, TimeLineRepository>();
         services.AddScoped<ITimeLineService, Core.Services.TimeLineService>();
-
         services.AddSingleton(AutoMapperConfig.ConfigureAutoMapper());
+        services.AddHostedService<AddPostToTimelineIfPostIsCreatedHandler>();
     }
 }

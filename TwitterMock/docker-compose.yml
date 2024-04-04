@@ -1,0 +1,72 @@
+version: '3.7'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
+    healthcheck:
+      test: rabbitmq-diagnostics check_port_connectivity
+      interval: 1s
+      timeout: 3s
+      retries: 30
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    
+  APIGateway:
+    image: apigateway
+    build:
+      context: .
+      dockerfile: ./APIGateway/Dockerfile
+    ports:
+      - "5206:80"
+  
+  AuthService:
+    image: authservice
+    build:
+      context: .
+      dockerfile: ./AuthService/Dockerfile
+    depends_on:
+      - APIGateway
+    ports:
+      - "9094:80"
+  
+  UserService:
+    image: userservice
+    build:
+      context: .
+      dockerfile: ./UserService/Dockerfile
+    depends_on:
+      - AuthService
+    ports:
+      - "9093:80"
+    
+  CommentService:
+    image: commentservice
+    build:
+      context: .
+      dockerfile: ./CommentService/Dockerfile
+    depends_on:
+      - AuthService
+    ports:
+      - "9092:80"
+  
+  TimeLineService:
+    image: timelineservice
+    build:
+      context: .
+      dockerfile: ./TimeLineService/Dockerfile
+    depends_on:
+      - AuthService
+    ports:
+      - "9091:80"
+  
+  PostService:
+    image: postservice
+    build:
+      context: .
+      dockerfile: ./PostService/Dockerfile
+    depends_on:
+      - AuthService
+    ports:
+      - "9090:80"

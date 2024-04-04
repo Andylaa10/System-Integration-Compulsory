@@ -1,3 +1,5 @@
+using UserService.Configs;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,6 +9,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//Here i pass a userId
+builder.Services.ConfigureDi(1);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -15,8 +20,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

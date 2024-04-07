@@ -84,7 +84,7 @@ public class AuthService : IAuthService
                 IssuerSigningKey = new SymmetricSecurityKey(key),
                 ValidateIssuer = false,
                 ValidateAudience = false,
-                ValidateLifetime = false
+                ValidateLifetime = true
             }, out var validatedToken);
 
 
@@ -125,13 +125,13 @@ public class AuthService : IAuthService
         var tokenOptions = new JwtSecurityToken(
             signingCredentials: signingCredentials,
             claims: claims,
-            expires: DateTime.Now.AddHours(7)
+            expires: DateTime.Now.AddMinutes(5)
         );
 
         var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
         var authToken = new AuthenticationToken
         {
-            Value = tokenString,
+            Value = tokenString
         };
 
         return authToken;

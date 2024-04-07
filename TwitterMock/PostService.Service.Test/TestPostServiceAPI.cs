@@ -6,10 +6,6 @@ using PostService.Controllers;
 using PostService.Core.Entities;
 using PostService.Core.Services.DTOs;
 using PostService.Core.Services.Interfaces;
-using WireMock.RequestBuilders;
-using WireMock.ResponseBuilders;
-using WireMock.Server;
-using WireMock.Settings;
 
 namespace PostService.Service.Test;
 
@@ -35,16 +31,13 @@ public class TestPostServiceAPI
   
         var mockService = new Mock<IPostService>();  
         mockService.Setup(service => service.AddPost(It.IsAny<AddPostDTO>()))  
-            .ReturnsAsync(testPost); // Mock service will complete when AddPost is called   
+            .ReturnsAsync(testPost);
   
         var claims = new List<Claim> { new Claim("UserId", testPost.UserId.ToString()) };  
         var identity = new ClaimsIdentity(claims, "Bearer");  
         var user = new ClaimsPrincipal(identity);  
   
-        var controller = new PostController(mockService.Object)  
-        {  
-            ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext { User = user } }  
-        };  
+        var controller = new PostController(mockService.Object);  
   
         // Act    
         var result = await controller.AddPost(dtoPost);  
@@ -71,12 +64,9 @@ public class TestPostServiceAPI
   
         var claims = new List<Claim> { new Claim("UserId", postId.ToString()) };  
         var identity = new ClaimsIdentity(claims, "Bearer");  
-        var user = new ClaimsPrincipal(identity);  
-  
-        var controller = new PostController(mockService.Object)  
-        {  
-            ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext { User = user } }  
-        };  
+        var user = new ClaimsPrincipal(identity);
+
+        var controller = new PostController(mockService.Object);
   
         // Act  
         var result = await controller.UpdatePost(postId, updatePostDto);  
@@ -172,10 +162,7 @@ public class TestPostServiceAPI
         var identity = new ClaimsIdentity(claims, "Bearer");  
         var user = new ClaimsPrincipal(identity);  
   
-        var controller = new PostController(mockService.Object)  
-        {  
-            ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext { User = user } }  
-        };  
+        var controller = new PostController(mockService.Object);  
   
         // Act    
         var result = await controller.DeletePost(postId);  
